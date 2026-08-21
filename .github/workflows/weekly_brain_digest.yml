@@ -2,8 +2,8 @@ name: ?? Weekly Brain Digest (Every Friday 7PM IST)
 
 on:
   schedule:
-    - cron: "30 13 * * 5"   # 1:30 PM UTC = 7:00 PM IST every Friday
-  workflow_dispatch:          # Allow manual trigger anytime
+    - cron: "30 13 * * 5"
+  workflow_dispatch:
 
 jobs:
   send_weekly_digest:
@@ -30,30 +30,106 @@ jobs:
           RECIPIENT_EMAIL: "vishnuzanwar90@gmail.com"
         run: |
           python << 'PYTHON_SCRIPT'
-          import os, json, smtplib, subprocess
+          import os, json, smtplib, subprocess, time
           from email.mime.multipart import MIMEMultipart
           from email.mime.text import MIMEText
-          from datetime import datetime, timedelta
+          from datetime import datetime
           import requests, feedparser
 
-          # -- 1. Repo Stats ----------------------------------------------
-          def count_files(folder, ext):
-              result = subprocess.run(
-                  ["find", folder, "-name", f"*.{ext}"],
-                  capture_output=True, text=True
+          def safe_fetch_rss(url, max_items=4):
+              try:
+                  feed = feedparser.parse(url)
+                  items = feed.entries[:max_items]
+                  return [{"title": e.get("title","No title"), "link": e.get("link","#"), "summary": e.get("summary","")} for e in items]
+              except:
+                  return []
+
+          def safe_fetch_json(url, headers=None, timeout=8):
+              try:
+                  r = requests.get(url, headers=headers or {}, timeout=timeout)
+                  return r.json()
+              except:
+                  return {}
+
+          def items_to_html(items, color):
+              if not items:
+                  return f'<li style="color:#94a3b8;">No updates found this week</li>'
+              return "".join(
+                  f'<li style="padding:6px 0;"><a href="{i["link"]}" style="color:{color};text-decoration:none;font-weight:bold;">{i["title"]}</a></li>'
+                  for i in items
               )
+
+          print("?? Fetching web intelligence sources...")
+
+          # -- SOURCE 1: Salesforce Developer Blog -----------------------
+          sf_dev_blog = safe_fetch_rss("https://developer.salesforce.com/blogs/feed")
+          print(f"? Salesforce Dev Blog: {len(sf_dev_blog)} items")
+
+          # -- SOURCE 2: Salesforce Release Notes ------------------------
+          sf_release = safe_fetch_rss("https://help.salesforce.com/s/rss_feed?language=en_US")
+          print(f"? Salesforce Release Notes: {len(sf_release)} items")
+
+          # -- SOURCE 3: Dev.to Salesforce Articles ----------------------
+          devto_raw = safe_fetch_json("https://dev.to/api/articles?tag=salesforce&per_page=4&top=7")
+          devto = [{"title": a.get("title",""), "link": a.get("url","#")} for a in (devto_raw if isinstance(devto_raw, list) else [])]
+          print(f"? Dev.to Salesforce: {len(devto)} articles")
+
+          # -- SOURCE 4: Reddit r/salesforce -----------------------------
+          reddit_raw = safe_fetch_json(
+              "https://www.reddit.com/r/salesforce/top.json?limit=4&t=week",
+              headers={"User-Agent": "salesforce-brain-bot/1.0"}
+          )
+          reddit_posts = []
+          try:
+              for post in reddit_raw.get("data", {}).get("children", []):
+                  d = post.get("data", {})
+                  reddit_posts.append({"title": d.get("title",""), "link": f'https://reddit.com{d.get("permalink","")}'})
+          except:
+              pass
+          print(f"? Reddit r/salesforce: {len(reddit_posts)} posts")
+
+          # -- SOURCE 5: npm @salesforce packages ------------------------
+          npm_raw = safe_fetch_json("https://registry.npmjs.org/-/v1/search?text=@salesforce&size=4")
+          npm_packages = []
+          try:
+              for pkg in npm_raw.get("objects", []):
+                  p = pkg.get("package", {})
+                  npm_packages.append({
+                      "title": f'{p.get("name","")} v{p.get("version","")} — {p.get("description","")}',
+                      "link": f'https://npmjs.com/package/{p.get("name","")}'
+                  })
+          except:
+              pass
+          print(f"? npm @salesforce: {len(npm_packages)} packages")
+
+          # -- SOURCE 6: GitHub Trending Salesforce ----------------------
+          gh_raw = safe_fetch_json(
+              "https://api.github.com/search/repositories?q=salesforce+lwc+apex&sort=updated&order=desc&per_page=4",
+              headers={"Accept": "application/vnd.github+json"}
+          )
+          gh_repos = []
+          try:
+              for r in gh_raw.get("items", []):
+                  gh_repos.append({
+                      "title": f'? {r["stargazers_count"]} — {r["full_name"]}: {r.get("description","")[:60]}',
+                      "link": r["html_url"]
+                  })
+          except:
+              pass
+          print(f"? GitHub Trending: {len(gh_repos)} repos")
+
+          # -- Repo Stats -------------------------------------------------
+          def count_files(folder, ext):
+              result = subprocess.run(["find", folder, "-name", f"*.{ext}"], capture_output=True, text=True)
               return len([l for l in result.stdout.strip().split("\n") if l])
 
-          errors_count  = count_files("01_SALESFORCE", "md")
-          commits_raw   = subprocess.run(
+          commits_raw = subprocess.run(
               ["git", "log", "--oneline", "--since=7 days ago"],
               capture_output=True, text=True
           ).stdout.strip()
-          commits_list  = [c for c in commits_raw.split("\n") if c]
-          commits_count = len(commits_list)
-          commits_html  = "".join(f"<li><code>{c}</code></li>" for c in commits_list) or "<li>No commits this week</li>"
+          commits_list = [c for c in commits_raw.split("\n") if c]
+          commits_html = "".join(f"<li><code>{c}</code></li>" for c in commits_list) or "<li>No commits this week</li>"
 
-          # -- 2. Pincode Registry Stats ----------------------------------
           try:
               with open("00_SYSTEM/pincode_registry.json") as f:
                   reg = json.load(f)
@@ -61,91 +137,103 @@ jobs:
           except:
               total_pincodes = 0
 
-          # -- 3. Salesforce Release Notes RSS Feed -----------------------
-          sf_feed  = feedparser.parse("https://help.salesforce.com/s/rss_feed?language=en_US")
-          sf_items = sf_feed.entries[:3] if sf_feed.entries else []
-          sf_html  = "".join(
-              f'<li><a href="{e.get("link","#")}">{e.get("title","Update")}</a></li>'
-              for e in sf_items
-          ) or "<li>No Salesforce updates found this week</li>"
-
-          # -- 4. GitHub Trending (LWC / Apex / Salesforce) ---------------
-          try:
-              gh = requests.get(
-                  "https://api.github.com/search/repositories"
-                  "?q=salesforce+lwc+apex&sort=updated&order=desc&per_page=3",
-                  headers={"Accept": "application/vnd.github+json"},
-                  timeout=10
-              ).json()
-              gh_items = gh.get("items", [])
-              gh_html = "".join(
-                  f'<li><a href="{r["html_url"]}">{r["full_name"]}</a> ? {r["stargazers_count"]}</li>'
-                  for r in gh_items
-              )
-          except:
-              gh_html = "<li>GitHub trending fetch skipped</li>"
-
-          # -- 5. Compose HTML Email --------------------------------------
           week_end = datetime.now().strftime("%B %d, %Y")
-          html = f"""
-          <html><body style="font-family:Arial,sans-serif;max-width:680px;margin:auto;color:#1e1e2e;">
 
-          <div style="background:linear-gradient(135deg,#1e1e38,#0f172a);padding:32px;border-radius:12px;">
-            <h1 style="color:#6366f1;margin:0;">?? Weekly Brain Digest</h1>
-            <p style="color:#94a3b8;margin:8px 0 0;">Week ending {week_end} &nbsp;|&nbsp; salesforce-agent-brain</p>
+          # -- Compose HTML Email -----------------------------------------
+          html = f"""
+          <html>
+          <body style="font-family:Arial,sans-serif;max-width:700px;margin:auto;color:#1e1e2e;background:#f8fafc;">
+
+          <!-- HEADER -->
+          <div style="background:linear-gradient(135deg,#1e1e38,#0f172a);padding:36px;border-radius:16px 16px 0 0;">
+            <h1 style="color:#6366f1;margin:0;font-size:28px;">?? Weekly Brain Digest</h1>
+            <p style="color:#94a3b8;margin:8px 0 0;">Week ending {week_end} &nbsp;·&nbsp; H-AKOS Learning OS &nbsp;·&nbsp; Auto-generated</p>
           </div>
 
-          <div style="padding:24px 0;">
-
-            <h2 style="color:#6366f1;">?? Repository Health This Week</h2>
+          <!-- REPO HEALTH -->
+          <div style="background:#fff;padding:24px;border-left:4px solid #6366f1;">
+            <h2 style="color:#6366f1;margin-top:0;">?? Repository Health</h2>
             <table style="width:100%;border-collapse:collapse;">
               <tr style="background:#f1f5f9;">
-                <td style="padding:12px;border:1px solid #e2e8f0;">?? Total PINCODE Notes</td>
-                <td style="padding:12px;border:1px solid #e2e8f0;font-weight:bold;color:#6366f1;">{errors_count}</td>
+                <td style="padding:12px;border:1px solid #e2e8f0;">??? Total PINcodes Registered</td>
+                <td style="padding:12px;border:1px solid #e2e8f0;font-weight:bold;color:#6366f1;font-size:20px;">{total_pincodes}</td>
               </tr>
               <tr>
-                <td style="padding:12px;border:1px solid #e2e8f0;">??? Total PINcodes Registered</td>
-                <td style="padding:12px;border:1px solid #e2e8f0;font-weight:bold;color:#6366f1;">{total_pincodes}</td>
-              </tr>
-              <tr style="background:#f1f5f9;">
                 <td style="padding:12px;border:1px solid #e2e8f0;">?? Git Commits This Week</td>
-                <td style="padding:12px;border:1px solid #e2e8f0;font-weight:bold;color:#6366f1;">{commits_count}</td>
+                <td style="padding:12px;border:1px solid #e2e8f0;font-weight:bold;color:#6366f1;font-size:20px;">{len(commits_list)}</td>
               </tr>
             </table>
-
-            <h2 style="color:#6366f1;">?? This Week's Commits</h2>
-            <ul style="background:#f8fafc;padding:16px 32px;border-radius:8px;border-left:4px solid #6366f1;">
+            <h3 style="color:#475569;">?? This Week's Commits</h3>
+            <ul style="background:#f8fafc;padding:12px 24px;border-radius:8px;border-left:3px solid #6366f1;">
               {commits_html}
             </ul>
+          </div>
 
-            <h2 style="color:#f59e0b;">? Salesforce Platform Updates</h2>
-            <ul style="background:#fffbeb;padding:16px 32px;border-radius:8px;border-left:4px solid #f59e0b;">
-              {sf_html}
+          <!-- SOURCE 1: SF DEV BLOG -->
+          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #0ea5e9;">
+            <h2 style="color:#0ea5e9;margin-top:0;">?? Salesforce Developer Blog</h2>
+            <ul style="padding:0 0 0 20px;line-height:2;">
+              {items_to_html(sf_dev_blog, "#0ea5e9")}
             </ul>
+          </div>
 
-            <h2 style="color:#10b981;">?? GitHub Trending (Salesforce Ecosystem)</h2>
-            <ul style="background:#ecfdf5;padding:16px 32px;border-radius:8px;border-left:4px solid #10b981;">
-              {gh_html}
+          <!-- SOURCE 2: SF RELEASE NOTES -->
+          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #f59e0b;">
+            <h2 style="color:#f59e0b;margin-top:0;">? Salesforce Release Notes</h2>
+            <ul style="padding:0 0 0 20px;line-height:2;">
+              {items_to_html(sf_release, "#f59e0b")}
             </ul>
+          </div>
 
-            <h2 style="color:#6366f1;">??? Tomorrow is Saturday!</h2>
-            <div style="background:#1e1e38;color:#e2e8f0;padding:20px;border-radius:8px;">
-              <p>Your Saturday implementation session is ready.<br>
-              Open Antigravity IDE and type:</p>
-              <code style="color:#a855f7;font-size:16px;">@salesforce-brain Saturday planning session - what are we building today?</code>
+          <!-- SOURCE 3: DEV.TO -->
+          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #6366f1;">
+            <h2 style="color:#6366f1;margin-top:0;">?? Dev.to Community Articles</h2>
+            <ul style="padding:0 0 0 20px;line-height:2;">
+              {items_to_html(devto, "#6366f1")}
+            </ul>
+          </div>
+
+          <!-- SOURCE 4: REDDIT -->
+          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #ef4444;">
+            <h2 style="color:#ef4444;margin-top:0;">?? Reddit r/salesforce — Top This Week</h2>
+            <ul style="padding:0 0 0 20px;line-height:2;">
+              {items_to_html(reddit_posts, "#ef4444")}
+            </ul>
+          </div>
+
+          <!-- SOURCE 5: NPM -->
+          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #10b981;">
+            <h2 style="color:#10b981;margin-top:0;">?? npm @salesforce Package Updates</h2>
+            <ul style="padding:0 0 0 20px;line-height:2;">
+              {items_to_html(npm_packages, "#10b981")}
+            </ul>
+          </div>
+
+          <!-- SOURCE 6: GITHUB TRENDING -->
+          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #a855f7;">
+            <h2 style="color:#a855f7;margin-top:0;">?? GitHub Trending — Salesforce Ecosystem</h2>
+            <ul style="padding:0 0 0 20px;line-height:2;">
+              {items_to_html(gh_repos, "#a855f7")}
+            </ul>
+          </div>
+
+          <!-- CTA -->
+          <div style="background:#1e1e38;padding:24px;border-radius:0 0 16px 16px;margin-top:2px;">
+            <h3 style="color:#a855f7;margin-top:0;">??? Tomorrow is Saturday Build Day!</h3>
+            <p style="color:#94a3b8;">Open Antigravity IDE and type:</p>
+            <div style="background:#0f172a;padding:16px;border-radius:8px;">
+              <code style="color:#a855f7;font-size:15px;">@salesforce-brain Saturday planning session — what are we building today?</code>
             </div>
-
+            <p style="color:#475569;font-size:12px;margin-bottom:0;margin-top:16px;">
+              Auto-generated by H-AKOS GitHub Actions &nbsp;·&nbsp;
+              <a href="https://github.com/Vishnu-Zanwar/salesforce-agent-brain" style="color:#6366f1;">View Repository</a>
+            </p>
           </div>
 
-          <div style="background:#f1f5f9;padding:16px;border-radius:8px;text-align:center;color:#64748b;font-size:12px;">
-            Auto-generated by H-AKOS GitHub Actions &nbsp;|&nbsp;
-            <a href="https://github.com/Vishnu-Zanwar/salesforce-agent-brain">View Repository</a>
-          </div>
-
-          </body></html>
+          </body>
+          </html>
           """
 
-          # -- 6. Send via Gmail SMTP -------------------------------------
           msg = MIMEMultipart("alternative")
           msg["Subject"] = f"?? Weekly Brain Digest — {week_end}"
           msg["From"]    = os.environ["GMAIL_USER"]
@@ -156,5 +244,5 @@ jobs:
               server.login(os.environ["GMAIL_USER"], os.environ["GMAIL_APP_PASSWORD"])
               server.sendmail(os.environ["GMAIL_USER"], os.environ["RECIPIENT_EMAIL"], msg.as_string())
 
-          print("? Weekly digest sent successfully!")
+          print("? Upgraded weekly digest sent with 6 web intelligence sources!")
           PYTHON_SCRIPT
