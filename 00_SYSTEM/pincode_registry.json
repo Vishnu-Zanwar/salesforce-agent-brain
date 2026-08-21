@@ -1,33 +1,168 @@
 {
-  "_meta": {
-    "version": "1.0.0",
-    "created": "2026-08-22",
-    "description": "Single source of truth for all PINCODE assignments. Always check before creating a new PINCODE."
-  },
-  "registry": {
-    "LWE": { "last_id": 1, "assigned": { "LWE001": { "title": "Mutating Immutable @wire Property", "file": "01_SALESFORCE/LWC/01_ERRORS/LWE001_wire_mutation.md", "date": "2026-08-21", "status": "active" } } },
-    "LWL": { "last_id": 0, "assigned": {} },
-    "LWC": { "last_id": 0, "assigned": {} },
-    "LWN": { "last_id": 0, "assigned": {} },
-    "LWD": { "last_id": 0, "assigned": {} },
-    "APE": { "last_id": 0, "assigned": {} },
-    "APL": { "last_id": 0, "assigned": {} },
-    "APC": { "last_id": 1, "assigned": { "APC001": { "title": "Enterprise Trigger Handler Template", "file": "01_SALESFORCE/APEX/03_CODE_SAMPLES/APC001_trigger_handler.cls", "date": "2026-08-21", "status": "active" } } },
-    "APN": { "last_id": 0, "assigned": {} },
-    "APD": { "last_id": 0, "assigned": {} },
-    "ADE": { "last_id": 0, "assigned": {} },
-    "ADL": { "last_id": 0, "assigned": {} },
-    "ADC": { "last_id": 0, "assigned": {} },
-    "INE": { "last_id": 0, "assigned": {} },
-    "INL": { "last_id": 0, "assigned": {} },
-    "INC": { "last_id": 0, "assigned": {} },
-    "SDE": { "last_id": 0, "assigned": {} },
-    "SDL": { "last_id": 0, "assigned": {} },
-    "AIE": { "last_id": 0, "assigned": {} },
-    "AIL": { "last_id": 0, "assigned": {} },
-    "CLE": { "last_id": 0, "assigned": {} },
-    "CLL": { "last_id": 0, "assigned": {} },
-    "LFE": { "last_id": 0, "assigned": {} },
-    "LFL": { "last_id": 0, "assigned": {} }
-  }
+    "_meta":  {
+                  "version":  "1.0.0",
+                  "created":  "2026-08-22",
+                  "description":  "Single source of truth for all PINCODE assignments. Always check before creating a new PINCODE."
+              },
+    "registry":  {
+                     "LWE":  {
+                                 "last_id":  1,
+                                 "assigned":  {
+                                                  "LWE001":  {
+                                                                 "title":  "Mutating Immutable @wire Property",
+                                                                 "file":  "01_SALESFORCE/LWC/01_ERRORS/LWE001_wire_mutation.md",
+                                                                 "date":  "2026-08-21",
+                                                                 "status":  "active"
+                                                             }
+                                              }
+                             },
+                     "LWL":  {
+                                 "last_id":  1,
+                                 "assigned":  {
+                                                  "LWL001":  {
+                                                                 "title":  "LWC Component Lifecycle Deep Dive",
+                                                                 "file":  "01_SALESFORCE\\LWC\\02_LEARNING/LWL001_LWC_Component_Lifecycle_Deep_Dive.md",
+                                                                 "date":  "2026-08-22",
+                                                                 "status":  "active"
+                                                             }
+                                              }
+                             },
+                     "LWC":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "LWN":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "LWD":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "APE":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "APL":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "APC":  {
+                                 "last_id":  1,
+                                 "assigned":  {
+                                                  "APC001":  {
+                                                                 "title":  "Enterprise Trigger Handler Template",
+                                                                 "file":  "01_SALESFORCE/APEX/03_CODE_SAMPLES/APC001_trigger_handler.cls",
+                                                                 "date":  "2026-08-21",
+                                                                 "status":  "active"
+                                                             }
+                                              }
+                             },
+                     "APN":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "APD":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "ADE":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "ADL":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "ADC":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "INE":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "INL":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "INC":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "SDE":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "SDL":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "AIE":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "AIL":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "CLE":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "CLL":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "LFE":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             },
+                     "LFL":  {
+                                 "last_id":  0,
+                                 "assigned":  {
+
+                                              }
+                             }
+                 }
 }
