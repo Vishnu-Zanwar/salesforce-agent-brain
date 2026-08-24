@@ -58,9 +58,14 @@
                                               }
                              },
                      "APL":  {
-                                 "last_id":  0,
+                                 "last_id":  1,
                                  "assigned":  {
-
+                                                  "APL001":  {
+                                                                 "title":  "Apex \u0026 LWC Performance Engineering: DSA Bucketing, N+1 Wire Prevention, and Composite DTO Pattern",
+                                                                 "file":  "01_SALESFORCE\\APEX\\02_LEARNING\\APL001_Apex_DSA_Composite_DTO_Performance_Engineering.md",
+                                                                 "date":  "2026-08-24",
+                                                                 "status":  "active"
+                                                             }
                                               }
                              },
                      "APC":  {
