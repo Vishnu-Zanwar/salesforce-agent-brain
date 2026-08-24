@@ -58,11 +58,17 @@
                                               }
                              },
                      "APL":  {
-                                 "last_id":  1,
+                                 "last_id":  2,
                                  "assigned":  {
                                                   "APL001":  {
                                                                  "title":  "Apex \u0026 LWC Performance Engineering: DSA Bucketing, N+1 Wire Prevention, and Composite DTO Pattern",
                                                                  "file":  "01_SALESFORCE\\APEX\\02_LEARNING\\APL001_Apex_DSA_Composite_DTO_Performance_Engineering.md",
+                                                                 "date":  "2026-08-24",
+                                                                 "status":  "active"
+                                                             },
+                                                  "APL002":  {
+                                                                 "title":  "Apex Server-Side Pagination: SOQL OFFSET, Dynamic Filtering \u0026 DTO Pagination Patterns",
+                                                                 "file":  "01_SALESFORCE\\APEX\\02_LEARNING\\APL002_Apex_Server_Side_Pagination_SOQL_Offset.md",
                                                                  "date":  "2026-08-24",
                                                                  "status":  "active"
                                                              }
