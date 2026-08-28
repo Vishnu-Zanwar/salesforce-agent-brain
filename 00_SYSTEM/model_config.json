@@ -1,0 +1,38 @@
+{
+    "_meta": {
+        "version": "1.0.0",
+        "created": "2026-08-28",
+        "description": "Model failover chain for automation scripts (weekly_brain_digest.yml, saturday_plan_generator.yml, future agent scripts) that call an LLM API. On a 429/5xx/timeout, the caller should try the next provider in 'chain' order before giving up."
+    },
+    "chain": [
+        {
+            "provider": "groq",
+            "priority": 1,
+            "base_url": "https://api.groq.com/openai/v1",
+            "model": "llama-3.3-70b-versatile",
+            "api_key_env": "GROQ_API_KEY",
+            "notes": "Free tier, fast, but low rate limits (429s under moderate load)."
+        },
+        {
+            "provider": "openrouter",
+            "priority": 2,
+            "base_url": "https://openrouter.ai/api/v1",
+            "model": "meta-llama/llama-3.3-70b-instruct:free",
+            "api_key_env": "OPENROUTER_API_KEY",
+            "notes": "Second choice when Groq rate-limits. Free-tier model list rotates; verify the model slug is still marked ':free' before relying on it."
+        },
+        {
+            "provider": "ollama_local",
+            "priority": 3,
+            "base_url": "http://localhost:11434/v1",
+            "model": "llama3.1:8b",
+            "api_key_env": null,
+            "notes": "Last resort, offline fallback. Requires Ollama running locally with the model pulled (`ollama pull llama3.1:8b`). No rate limits, but only reachable from this machine."
+        }
+    ],
+    "retry_policy": {
+        "max_attempts_per_provider": 2,
+        "backoff_seconds": 3,
+        "on_exhaustion": "log_and_skip"
+    }
+}

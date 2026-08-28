@@ -1,0 +1,162 @@
+{
+    "_meta":  {
+                  "version":  "1.0.0",
+                  "generated":  "2026-08-28 20:48:25",
+                  "description":  "Inverted keyword index over pincode_registry.json titles. Regenerate with \u0027.\\brain.ps1 reindex\u0027 after adding PINCODEs.",
+                  "total_pincodes":  6
+              },
+    "keywords":  {
+                     "mutating":  [
+                                      "LWE001"
+                                  ],
+                     "immutable":  [
+                                       "LWE001"
+                                   ],
+                     "wire":  [
+                                  "LWE001",
+                                  "APL001"
+                              ],
+                     "property":  [
+                                      "LWE001"
+                                  ],
+                     "lwc":  [
+                                 "LWL001",
+                                 "LWL002",
+                                 "APL001"
+                             ],
+                     "component":  [
+                                       "LWL001"
+                                   ],
+                     "lifecycle":  [
+                                       "LWL001"
+                                   ],
+                     "deep":  [
+                                  "LWL001"
+                              ],
+                     "dive":  [
+                                  "LWL001"
+                              ],
+                     "client":  [
+                                    "LWL002"
+                                ],
+                     "side":  [
+                                  "LWL002",
+                                  "APL002"
+                              ],
+                     "reactive":  [
+                                      "LWL002"
+                                  ],
+                     "data":  [
+                                  "LWL002"
+                              ],
+                     "pipeline":  [
+                                      "LWL002"
+                                  ],
+                     "filtering":  [
+                                       "LWL002",
+                                       "APL002"
+                                   ],
+                     "slicing":  [
+                                     "LWL002"
+                                 ],
+                     "pagination":  [
+                                        "LWL002",
+                                        "APL002"
+                                    ],
+                     "pattern":  [
+                                     "LWL002",
+                                     "APL001"
+                                 ],
+                     "apex":  [
+                                  "APL001",
+                                  "APL002"
+                              ],
+                     "performance":  [
+                                         "APL001"
+                                     ],
+                     "engineering":  [
+                                         "APL001"
+                                     ],
+                     "dsa":  [
+                                 "APL001"
+                             ],
+                     "bucketing":  [
+                                       "APL001"
+                                   ],
+                     "prevention":  [
+                                        "APL001"
+                                    ],
+                     "composite":  [
+                                       "APL001"
+                                   ],
+                     "dto":  [
+                                 "APL001",
+                                 "APL002"
+                             ],
+                     "server":  [
+                                    "APL002"
+                                ],
+                     "soql":  [
+                                  "APL002"
+                              ],
+                     "offset":  [
+                                    "APL002"
+                                ],
+                     "dynamic":  [
+                                     "APL002"
+                                 ],
+                     "patterns":  [
+                                      "APL002"
+                                  ],
+                     "enterprise":  [
+                                        "APC001"
+                                    ],
+                     "trigger":  [
+                                     "APC001"
+                                 ],
+                     "handler":  [
+                                     "APC001"
+                                 ],
+                     "template":  [
+                                      "APC001"
+                                  ]
+                 },
+    "pincodes":  {
+                     "LWE001":  {
+                                    "title":  "Mutating Immutable @wire Property",
+                                    "file":  "01_SALESFORCE/LWC/01_ERRORS/LWE001_wire_mutation.md",
+                                    "date":  "2026-08-21",
+                                    "status":  "active"
+                                },
+                     "LWL001":  {
+                                    "title":  "LWC Component Lifecycle Deep Dive",
+                                    "file":  "01_SALESFORCE\\LWC\\02_LEARNING/LWL001_LWC_Component_Lifecycle_Deep_Dive.md",
+                                    "date":  "2026-08-22",
+                                    "status":  "active"
+                                },
+                     "LWL002":  {
+                                    "title":  "Client-Side Reactive Data Pipeline: Filtering, Slicing \u0026 Pagination Pattern in LWC",
+                                    "file":  "01_SALESFORCE\\LWC\\02_LEARNING\\LWL002_Client_Side_Data_Pipeline_Filtering_Pagination.md",
+                                    "date":  "2026-08-24",
+                                    "status":  "active"
+                                },
+                     "APL001":  {
+                                    "title":  "Apex \u0026 LWC Performance Engineering: DSA Bucketing, N+1 Wire Prevention, and Composite DTO Pattern",
+                                    "file":  "01_SALESFORCE\\APEX\\02_LEARNING\\APL001_Apex_DSA_Composite_DTO_Performance_Engineering.md",
+                                    "date":  "2026-08-24",
+                                    "status":  "active"
+                                },
+                     "APL002":  {
+                                    "title":  "Apex Server-Side Pagination: SOQL OFFSET, Dynamic Filtering \u0026 DTO Pagination Patterns",
+                                    "file":  "01_SALESFORCE\\APEX\\02_LEARNING\\APL002_Apex_Server_Side_Pagination_SOQL_Offset.md",
+                                    "date":  "2026-08-24",
+                                    "status":  "active"
+                                },
+                     "APC001":  {
+                                    "title":  "Enterprise Trigger Handler Template",
+                                    "file":  "01_SALESFORCE/APEX/03_CODE_SAMPLES/APC001_trigger_handler.cls",
+                                    "date":  "2026-08-21",
+                                    "status":  "active"
+                                }
+                 }
+}

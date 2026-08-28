@@ -1,4 +1,4 @@
-param (
+﻿param (
     [Parameter(Position=0)]
     [string]$Action = "status",
     [Parameter(Position=1)]
@@ -11,6 +11,17 @@ param (
 
 Set-Location "D:\salesforce-agent-brain"
 $registryPath = "D:\salesforce-agent-brain\00_SYSTEM\pincode_registry.json"
+$indexPath    = "D:\salesforce-agent-brain\00_SYSTEM\pincode_index.json"
+
+$stopWords = @('a','an','the','and','or','of','in','on','to','for','with','via','vs','is','are')
+
+function Get-Tokens($text) {
+    ($text -split '[^a-zA-Z0-9]+') |
+        Where-Object { $_.Length -gt 2 } |
+        ForEach-Object { $_.ToLower() } |
+        Where-Object { $stopWords -notcontains $_ } |
+        Select-Object -Unique
+}
 
 switch ($Action.ToLower()) {
 
@@ -77,6 +88,100 @@ switch ($Action.ToLower()) {
         Write-Host "? PINCODE #$pincode registered successfully!" -ForegroundColor Green
         Write-Host "   Title:  $title" -ForegroundColor White
         Write-Host "   File:   $folder/$fileName.md" -ForegroundColor White
+
+        & $PSCommandPath reindex | Out-Null
+    }
+
+    "reindex" {
+        Write-Host "Rebuilding pincode_index.json from registry..." -ForegroundColor Cyan
+        $reg = Get-Content $registryPath | ConvertFrom-Json
+
+        $keywords = [ordered]@{}
+        $pincodes = [ordered]@{}
+        $count = 0
+
+        foreach ($prefixProp in $reg.registry.PSObject.Properties) {
+            foreach ($codeProp in $prefixProp.Value.assigned.PSObject.Properties) {
+                $code  = $codeProp.Name
+                $entry = $codeProp.Value
+                $count++
+
+                $pincodes[$code] = [ordered]@{
+                    title  = $entry.title
+                    file   = $entry.file
+                    date   = $entry.date
+                    status = $entry.status
+                }
+
+                $tokens = Get-Tokens $entry.title
+                foreach ($tok in $tokens) {
+                    if (-not $keywords.Contains($tok)) { $keywords[$tok] = @() }
+                    $keywords[$tok] = @($keywords[$tok]) + $code
+                }
+            }
+        }
+
+        $index = [ordered]@{
+            _meta = [ordered]@{
+                version     = "1.0.0"
+                generated   = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                description = "Inverted keyword index over pincode_registry.json titles. Regenerate with '.\brain.ps1 reindex' after adding PINCODEs."
+                total_pincodes = $count
+            }
+            keywords = $keywords
+            pincodes = $pincodes
+        }
+
+        $index | ConvertTo-Json -Depth 10 | Set-Content $indexPath
+        Write-Host "Indexed $count PINCODE(s), $($keywords.Count) keyword(s) -> $indexPath" -ForegroundColor Green
+    }
+
+    "search" {
+        # Usage: .\brain.ps1 search "wire mutation"
+        if ($Arg1 -eq "") { Write-Host "Usage: .\brain.ps1 search `"query text`"" -ForegroundColor Yellow; exit }
+
+        if (-not (Test-Path $indexPath)) {
+            Write-Host "No index found. Run '.\brain.ps1 reindex' first." -ForegroundColor Red
+            exit
+        }
+        $index = Get-Content $indexPath | ConvertFrom-Json
+
+        # Direct PINCODE hit, e.g. "search LWE001"
+        $directCode = $Arg1.ToUpper()
+        if ($index.pincodes.PSObject.Properties[$directCode]) {
+            $entry = $index.pincodes.$directCode
+            Write-Host "Direct match #$directCode :" -ForegroundColor Green
+            Write-Host "   Title: $($entry.title)" -ForegroundColor White
+            Write-Host "   File:  $($entry.file)" -ForegroundColor White
+            exit
+        }
+
+        $queryTokens = Get-Tokens $Arg1
+        if ($queryTokens.Count -eq 0) { Write-Host "Query too short/generic." -ForegroundColor Yellow; exit }
+
+        $scores = @{}
+        foreach ($tok in $queryTokens) {
+            foreach ($kw in $index.keywords.PSObject.Properties) {
+                if ($kw.Name -like "*$tok*") {
+                    foreach ($code in @($kw.Value)) {
+                        if (-not $scores.ContainsKey($code)) { $scores[$code] = 0 }
+                        $scores[$code]++
+                    }
+                }
+            }
+        }
+
+        if ($scores.Count -eq 0) {
+            Write-Host "No matches for '$Arg1'." -ForegroundColor Yellow
+            exit
+        }
+
+        Write-Host "Search results for '$Arg1':" -ForegroundColor Cyan
+        $scores.GetEnumerator() | Sort-Object -Property Value -Descending | ForEach-Object {
+            $entry = $index.pincodes.($_.Key)
+            Write-Host "   #$($_.Key)  [$($_.Value) hit(s)]  $($entry.title)" -ForegroundColor White
+            Write-Host "        $($entry.file)" -ForegroundColor DarkGray
+        }
     }
 
     "check-pincode" {
@@ -97,6 +202,24 @@ switch ($Action.ToLower()) {
     }
 
     "sync" {
+        # STORAGE_POLICY.md gate: block the sync if a large/binary file
+        # (recording, PDF, dataset) is about to be committed.
+        $bigFiles = git status --porcelain |
+            ForEach-Object { $_.Substring(3).Trim('"') } |
+            Where-Object { Test-Path $_ -PathType Leaf } |
+            Get-Item |
+            Where-Object { $_.Length -gt 5MB }
+
+        if ($bigFiles) {
+            Write-Host "?? Sync blocked - large file(s) staged for commit (see 00_SYSTEM/STORAGE_POLICY.md):" -ForegroundColor Red
+            $bigFiles | ForEach-Object {
+                $sizeMB = [math]::Round($_.Length / 1MB, 1)
+                Write-Host "   $($_.FullName)  ($sizeMB MB)" -ForegroundColor Red
+            }
+            Write-Host "Move it to Google Drive and link it from the note instead, then re-run sync." -ForegroundColor Yellow
+            exit
+        }
+
         Write-Host "?? Syncing all branches to GitHub..." -ForegroundColor Cyan
         git add .
         $msg = "chore(sync): auto brain sync [$(Get-Date -Format 'yyyy-MM-dd HH:mm')]"
@@ -112,10 +235,12 @@ switch ($Action.ToLower()) {
 
     default {
         Write-Host ""
-        Write-Host "?? Salesforce Brain CLI � Available Commands:" -ForegroundColor Cyan
+        Write-Host "?? Salesforce Brain CLI ï¿½ Available Commands:" -ForegroundColor Cyan
         Write-Host "  .\brain.ps1 status                                    ? Health dashboard" -ForegroundColor White
         Write-Host "  .\brain.ps1 new-pincode [PREFIX] [TITLE] [FOLDER]    ? Register new PINCODE" -ForegroundColor White
         Write-Host "  .\brain.ps1 check-pincode [CODE]                     ? Check if PINCODE exists" -ForegroundColor White
+        Write-Host "  .\brain.ps1 search `"query text`"                      ? Search PINCODE index" -ForegroundColor White
+        Write-Host "  .\brain.ps1 reindex                                   ? Rebuild pincode_index.json" -ForegroundColor White
         Write-Host "  .\brain.ps1 sync                                      ? Push all to GitHub" -ForegroundColor White
         Write-Host "  .\brain.ps1 branches                                  ? List all branches" -ForegroundColor White
         Write-Host ""

@@ -2,8 +2,8 @@
 
 - **PINCODE:** `#LWL001`
 - **Date:** 2026-08-22
-- **Status:** active
+- **Status:** draft
 
 ## Description
 
-(Fill in details here)
+(Fill in details here — this note is registered but not yet written up. Not eligible for the staleness check's "Last Verified" tracking until it has real content.)

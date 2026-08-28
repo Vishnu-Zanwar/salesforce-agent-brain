@@ -4,6 +4,7 @@
 - **Topic:** Apex Server-Side Pagination, SOQL LIMIT & OFFSET, and Reactive LWC Integration
 - **Domain:** Apex / SOQL / High-Volume Data Architecture / Enterprise Design Patterns
 - **Created Date:** 2026-08-24
+- **Last Verified:** 2026-08-28
 - **Status:** Active
 - **Related:** #APL001, #LWL002, #APC001
 

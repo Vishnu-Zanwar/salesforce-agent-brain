@@ -1,0 +1,15 @@
+# Safety net for STORAGE_POLICY.md — these types should not be committed at all,
+# but if one slips in, treat it as binary so Git doesn't try to diff/merge it as text.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.mp4 binary
+*.mov binary
+*.mp3 binary
+*.wav binary
+*.zip binary
+*.7z binary
+*.docx binary
+*.xlsx binary
