@@ -16,12 +16,39 @@ protocol doc wins.
 ## Standard maintenance pass
 
 1. `.\00_SYSTEM\health_check.ps1` - fix every failure, don't just report it.
+   This includes a stranded-commit check (any branch ahead of `main` with no
+   open PR tracking it) - the exact failure that actually hit this repo once
+   already: PR #1 merged with only 2 of 9 commits, and the rest sat stranded
+   with nothing shipped for several turns before anyone noticed.
 2. `.\00_SYSTEM\staleness_check.ps1` - flag NEEDS_REVIEW / NO_VERIFICATION_DATE
    items to the user rather than silently touching content you can't verify
    is still correct.
 3. If you touched the registry directly (not via `brain.ps1 new-pincode`),
    run `.\brain.ps1 reindex` and `.\brain.ps1 vector-reindex`.
 4. Re-run `health_check.ps1` at the end. Zero failures before you report done.
+
+## After every push, pull, or merge
+
+Don't trust the exit code alone - verify it actually landed:
+
+```powershell
+git fetch origin
+git log origin/main..origin/<branch> --oneline
+```
+
+Non-empty means something's stranded. If it's a PR you just merged, that
+means the merge didn't capture everything - open a follow-up PR for what's
+left, don't assume a green exit code means done. `health_check.ps1`'s
+stranded-commit check does this automatically for whatever branch you're
+currently on.
+
+## Merge conflicts
+
+Auto-resolve only mechanical, unambiguous cases - the registry/index JSON
+files are safer rebuilt (`brain.ps1 reindex` / `vector-reindex`) than
+hand-merged. Anything requiring a judgment call about which version of real
+content is correct gets surfaced to the user, not guessed at. Never
+force-push to make a conflict disappear.
 
 ## Diagnosing a failing GitHub Action
 

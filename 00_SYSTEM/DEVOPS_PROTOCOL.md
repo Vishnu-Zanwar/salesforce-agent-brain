@@ -51,6 +51,40 @@ mandate.
    by guessing from the workflow file alone — the failure is almost always
    more specific than what the YAML suggests.
 
+7. **After every push, pull, or merge, verify it actually landed** — don't
+   trust the command's exit code alone. This is not theoretical: PR #1 in
+   this repo merged successfully (exit 0, no error) but only captured its
+   first 2 commits, because 7 more commits got pushed to the branch *after*
+   GitHub had already closed it as merged. Nobody noticed until several
+   turns later, and every workflow/fix built in between was silently dead on
+   `main` the whole time. Concretely, after any merge:
+
+   ```powershell
+   git fetch origin
+   git log origin/main..origin/<branch-that-was-supposedly-merged> --oneline
+   ```
+
+   A non-empty result means something is stranded — either the merge missed
+   commits (this repo's actual failure mode) or new commits landed on the
+   branch post-merge and need their own PR. Either way, don't consider a
+   merge finished until this comes back empty.
+
+8. **No branch should carry commits `main` doesn't have with no open PR
+   tracking them.** That's the general form of the same failure — a branch
+   quietly diverges from `main` and nothing surfaces it. Check periodically:
+
+   ```powershell
+   gh pr list --state open --json headRefName
+   git branch -r  # cross-reference: does every remote branch ahead of main have an open PR, or is it an intentional read-only mirror per BRANCH_PROTECTION.md?
+   ```
+
+9. **Merge conflicts:** attempt automatic resolution only for mechanical,
+   unambiguous cases (e.g. the registry/index JSON files, where a rebuild
+   via `brain.ps1 reindex` / `vector-reindex` is safer than hand-resolving
+   the diff). For anything requiring a judgment call about which version of
+   actual content is correct, stop and surface it — don't guess, and never
+   force-push to make a conflict disappear.
+
 ## What this role does NOT do
 
 - Doesn't write new Error/Learning notes — that's the check-first/log-after

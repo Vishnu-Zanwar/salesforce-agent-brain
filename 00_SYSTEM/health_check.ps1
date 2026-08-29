@@ -84,7 +84,37 @@ $bigFiles = git ls-files | ForEach-Object {
 } | Where-Object { $_.Length -gt 5MB }
 Check "No tracked file exceeds the 5MB storage policy" (-not $bigFiles) (($bigFiles | ForEach-Object { $_.FullName }) -join "; ")
 
-# 6. Working tree is clean or explicable - not a pass/fail, just surfaced
+# 6. No stranded commits on the current branch: it should either be `main`
+# itself, or have an open PR tracking it. This is the exact failure that
+# hit this repo for real - PR #1 merged with only 2 of 9 commits, and the
+# other 7 sat stranded on the branch with no open PR for several turns
+# before anyone noticed nothing had actually shipped.
+$ghExe = (Get-Command gh -ErrorAction SilentlyContinue).Source
+if (-not $ghExe -and (Test-Path "C:\Program Files\GitHub CLI\gh.exe")) {
+    $ghExe = "C:\Program Files\GitHub CLI\gh.exe"
+}
+
+$currentBranch = git branch --show-current
+if ($currentBranch -eq "main") {
+    Check "No stranded commits (on main)" $true
+} elseif ($ghExe) {
+    git fetch origin --quiet 2>$null
+    $openPRBranches = @()
+    try {
+        $prJson = & $ghExe pr list --state open --json headRefName 2>$null | ConvertFrom-Json
+        $openPRBranches = @($prJson | ForEach-Object { $_.headRefName })
+    } catch {}
+
+    $strandedCommits = git log "origin/main..origin/$currentBranch" --oneline 2>$null
+    $hasOpenPR = $openPRBranches -contains $currentBranch
+    $isStranded = $strandedCommits -and (-not $hasOpenPR)
+
+    Check "No stranded commits on '$currentBranch'" (-not $isStranded) $(if ($isStranded) { "$(@($strandedCommits).Count) commit(s) ahead of main, no open PR tracking them - open one" })
+} else {
+    Write-Host "  SKIP  Stranded-commit check (gh CLI not found)" -ForegroundColor DarkGray
+}
+
+# 7. Working tree is clean or explicable - not a pass/fail, just surfaced
 $dirty = git status --porcelain
 if ($dirty) {
     Write-Host "  INFO  Working tree has uncommitted changes ($(($dirty | Measure-Object).Count) file(s)) - not necessarily a problem, just worth knowing before a sync." -ForegroundColor DarkYellow
