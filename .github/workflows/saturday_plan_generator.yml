@@ -113,116 +113,124 @@ jobs:
           done_count = sum(1 for b in blockers if b["status"] == "DONE")
           total_count = len(blockers)
 
-          FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif"
+          # Web-safe stack only - most email clients strip <link>/@import
+          # webfonts, so hierarchy comes from weight/spacing, not a
+          # novelty typeface.
+          FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif"
+          MONO = "'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace"
+          INK        = "#1A1A18"
+          INK_MUTED  = "#6B6A62"
+          BORDER     = "#E4E1D6"
+          PAPER      = "#F5F3ED"
+          ACCENT     = "#B2551B"
+          ACCENT_SOFT= "#F1E2CE"
+          OK         = "#2F6B40"
+          OK_SOFT    = "#E4EFE3"
 
-          done_html = "".join(
-            f'<div style="padding:6px 0;font-family:{FONT};font-size:14px;color:#065f46;">'
-            f'<span style="display:inline-block;background:#10b981;color:#ffffff;font-size:10px;font-weight:700;'
-            f'border-radius:4px;padding:2px 6px;margin-right:8px;">DONE</span>'
-            f'#{b["id"]} &mdash; {b["title"]}</div>'
+          done_rows = "".join(
+            f'<tr><td style="padding:6px 0;border-top:1px solid {BORDER};font-family:{FONT};font-size:13px;color:{INK};">'
+            f'<span style="display:inline-block;background:{OK};color:#ffffff;font-size:9.5px;font-weight:700;letter-spacing:0.03em;'
+            f'border-radius:3px;padding:2px 6px;margin-right:8px;vertical-align:middle;">DONE</span>'
+            f'<span style="font-family:{MONO};color:{INK_MUTED};">#{b["id"]}</span> {b["title"]}</td></tr>'
             for b in blockers if b["status"] == "DONE"
-          ) or f'<div style="font-family:{FONT};font-size:14px;color:#64748b;">Nothing marked done yet.</div>'
+          ) or f'<tr><td style="font-family:{FONT};font-size:13px;color:{INK_MUTED};">Nothing marked done yet.</td></tr>'
 
           if next_blocker:
             steps_html = "".join(
-              f'<li style="padding:6px 0;">{s}</li>'
+              f'<li style="padding:5px 0;">{s}</li>'
               for s in next_blocker.get("steps", [])
-            ) or '<li style="padding:6px 0;color:#94a3b8;">No step-by-step breakdown written yet for this one.</li>'
+            ) or f'<li style="padding:5px 0;color:{INK_MUTED};">No step-by-step breakdown written yet for this one.</li>'
             plan_html = f"""
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                   style="background:linear-gradient(135deg,#1e1b4b,#0f172a);border-radius:14px;">
-              <tr><td style="padding:26px 28px;">
-                <p style="margin:0 0 4px 0;font-family:{FONT};font-size:12px;font-weight:700;color:#a5b4fc;text-transform:uppercase;letter-spacing:1px;">Today's Build</p>
-                <h3 style="margin:0 0 12px 0;font-family:{FONT};font-size:19px;color:#ffffff;">#{next_blocker["id"]} &mdash; {next_blocker["title"]}</h3>
-                <p style="margin:0 0 18px 0;font-family:{FONT};font-size:14px;color:#c7d2fe;">{next_blocker["description"]}</p>
-                <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px 0;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid {BORDER};border-radius:6px;">
+              <tr><td style="padding:22px 24px;">
+                <p style="margin:0 0 4px 0;font-family:{FONT};font-size:10.5px;font-weight:700;letter-spacing:0.09em;color:{ACCENT};text-transform:uppercase;">Today's build</p>
+                <h3 style="margin:0 0 10px 0;font-family:{FONT};font-size:17px;font-weight:600;color:{INK};">#{next_blocker["id"]} &mdash; {next_blocker["title"]}</h3>
+                <p style="margin:0 0 16px 0;font-family:{FONT};font-size:13.5px;color:{INK_MUTED};line-height:1.6;">{next_blocker["description"]}</p>
+                <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px 0;">
                   <tr>
-                    <td style="padding:4px 20px 4px 0;font-family:{FONT};font-size:12px;color:#818cf8;">⏱ Est. Time</td>
-                    <td style="padding:4px 0;font-family:{FONT};font-size:13px;font-weight:700;color:#f1f5f9;">{next_blocker.get("estimated_time","TBD")}</td>
+                    <td style="padding:3px 18px 3px 0;font-family:{FONT};font-size:11.5px;color:{INK_MUTED};">Est. time</td>
+                    <td style="padding:3px 0;font-family:{FONT};font-size:12.5px;font-weight:600;color:{INK};">{next_blocker.get("estimated_time","TBD")}</td>
                   </tr>
                   <tr>
-                    <td style="padding:4px 20px 4px 0;font-family:{FONT};font-size:12px;color:#818cf8;">🎚 Difficulty</td>
-                    <td style="padding:4px 0;font-family:{FONT};font-size:13px;font-weight:700;color:#f1f5f9;">{next_blocker.get("difficulty","TBD")}</td>
+                    <td style="padding:3px 18px 3px 0;font-family:{FONT};font-size:11.5px;color:{INK_MUTED};">Difficulty</td>
+                    <td style="padding:3px 0;font-family:{FONT};font-size:12.5px;font-weight:600;color:{INK};">{next_blocker.get("difficulty","TBD")}</td>
                   </tr>
                   <tr>
-                    <td style="padding:4px 20px 4px 0;font-family:{FONT};font-size:12px;color:#818cf8;vertical-align:top;">🎓 You'll Learn</td>
-                    <td style="padding:4px 0;font-family:{FONT};font-size:13px;font-weight:700;color:#f1f5f9;">{next_blocker.get("learning_outcome","New engineering skill")}</td>
+                    <td style="padding:3px 18px 3px 0;font-family:{FONT};font-size:11.5px;color:{INK_MUTED};vertical-align:top;">You'll learn</td>
+                    <td style="padding:3px 0;font-family:{FONT};font-size:12.5px;font-weight:600;color:{INK};">{next_blocker.get("learning_outcome","New engineering skill")}</td>
                   </tr>
                 </table>
-                <p style="margin:0 0 8px 0;font-family:{FONT};font-size:12px;font-weight:700;color:#a5b4fc;text-transform:uppercase;letter-spacing:1px;">Step-by-step</p>
-                <ol style="margin:0 0 18px 0;padding-left:20px;font-family:{FONT};font-size:14px;color:#e2e8f0;line-height:1.6;">{steps_html}</ol>
-                <div style="background:#0f172a;border:1px solid #312e81;border-radius:8px;padding:14px 16px;">
-                  <p style="margin:0 0 6px 0;font-family:{FONT};font-size:11px;color:#818cf8;">Open your IDE's AI chat and start with:</p>
-                  <code style="color:#c4b5fd;font-family:'SFMono-Regular',Consolas,monospace;font-size:13px;">@salesforce-brain Saturday session &mdash; let's build blocker #{next_blocker["id"]}: {next_blocker["title"]}</code>
-                </div>
+                <p style="margin:0 0 6px 0;font-family:{FONT};font-size:10.5px;font-weight:700;letter-spacing:0.09em;color:{INK_MUTED};text-transform:uppercase;">Step-by-step</p>
+                <ol style="margin:0 0 16px 0;padding-left:18px;font-family:{FONT};font-size:13px;color:{INK};line-height:1.5;">{steps_html}</ol>
+                <p style="margin:0 0 6px 0;font-family:{FONT};font-size:11px;color:{INK_MUTED};">Open your IDE's AI chat and start with:</p>
+                <code style="display:block;background:{PAPER};border:1px solid {BORDER};border-radius:4px;padding:10px 12px;font-family:{MONO};font-size:12px;color:{INK};">@salesforce-brain Saturday session &mdash; let's build blocker #{next_blocker["id"]}: {next_blocker["title"]}</code>
               </td></tr>
             </table>
             """
           else:
             plan_html = f"""
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                   style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:14px;">
-              <tr><td style="padding:24px 28px;text-align:center;">
-                <p style="margin:0;font-family:{FONT};font-size:15px;font-weight:700;color:#047857;">🎉 All tracked blockers are DONE. Time to scope new ones.</p>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{OK_SOFT};border:1px solid {BORDER};border-radius:6px;">
+              <tr><td style="padding:22px 24px;text-align:center;">
+                <p style="margin:0;font-family:{FONT};font-size:14px;font-weight:600;color:{OK};">All tracked blockers are done &mdash; time to scope new ones.</p>
               </td></tr>
             </table>
             """
 
           html = f"""
           <html>
-          <body style="margin:0;padding:0;background:#eef1f6;font-family:{FONT};">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1f6;padding:32px 16px;">
-          <tr><td align="center">
-          <table role="presentation" width="640" cellpadding="0" cellspacing="0" style="width:640px;max-width:100%;">
+          <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+          <body style="margin:0;padding:0;background:{PAPER};font-family:{FONT};">
+          <div style="display:none;max-height:0;overflow:hidden;opacity:0;">{done_count} of {total_count} blockers verified done{" &mdash; next up: #" + str(next_blocker["id"]) + " " + next_blocker["title"] if next_blocker else " &mdash; all clear"}.</div>
 
-            <!-- HEADER -->
-            <tr><td style="background:linear-gradient(135deg,#312e81,#0f172a);border-radius:18px 18px 0 0;padding:36px 32px;">
-              <p style="margin:0;font-family:{FONT};font-size:12px;font-weight:700;letter-spacing:1.5px;color:#a5b4fc;text-transform:uppercase;">H-AKOS &middot; Implementation Plan</p>
-              <h1 style="margin:8px 0 0 0;font-family:{FONT};font-size:26px;color:#ffffff;">🛠️ Saturday Build Session</h1>
-              <p style="margin:10px 0 0 0;font-family:{FONT};font-size:14px;color:#94a3b8;">{today} &nbsp;&bull;&nbsp; {done_count}/{total_count} blockers verified done</p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{PAPER};padding:36px 16px;">
+          <tr><td align="center">
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#ffffff;border:1px solid {BORDER};border-radius:6px;">
+
+            <!-- MASTHEAD -->
+            <tr><td style="padding:32px 36px 20px 36px;">
+              <p style="margin:0;font-family:{FONT};font-size:11px;font-weight:700;letter-spacing:0.12em;color:{ACCENT};text-transform:uppercase;">H-AKOS</p>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:6px;">
+                <tr>
+                  <td>
+                    <h1 style="margin:0;font-family:{FONT};font-size:22px;font-weight:600;color:{INK};letter-spacing:-0.01em;">Saturday Build Session</h1>
+                  </td>
+                  <td align="right" style="font-family:{FONT};font-size:12.5px;color:{INK_MUTED};white-space:nowrap;">{today}<br><span style="color:{INK};font-weight:600;">{done_count}/{total_count} done</span></td>
+                </tr>
+              </table>
+            </td></tr>
+            <tr><td style="padding:0 36px;"><div style="border-top:2px solid {INK};"></div></td></tr>
+
+            <!-- COMPLETED -->
+            <tr><td style="padding:22px 36px 0 36px;">
+              <p style="margin:0 0 10px 0;font-family:{FONT};font-size:10.5px;font-weight:700;letter-spacing:0.09em;color:{INK_MUTED};text-transform:uppercase;">Verified done ({done_count}/{total_count})</p>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid {BORDER};border-radius:6px;">
+                <tr><td style="padding:4px 18px 12px 18px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">{done_rows}</table>
+                </td></tr>
+              </table>
             </td></tr>
 
-            <!-- BODY -->
-            <tr><td style="background:#eef1f6;padding:20px 0 0 0;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <!-- TODAY'S PLAN -->
+            <tr><td style="padding:22px 36px 0 36px;">
+              {plan_html}
+            </td></tr>
 
-              <!-- COMPLETED -->
-              <tr><td style="padding:0 0 16px 0;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                       style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;">
-                  <tr><td style="height:4px;background:#10b981;line-height:4px;font-size:0;">&nbsp;</td></tr>
-                  <tr><td style="padding:20px 24px;">
-                    <p style="margin:0 0 12px 0;font-family:{FONT};font-size:15px;font-weight:700;color:#0f172a;">✅ Verified Done ({done_count}/{total_count})</p>
-                    {done_html}
-                  </td></tr>
-                </table>
-              </td></tr>
-
-              <!-- TODAY'S PLAN -->
-              <tr><td style="padding:0 0 16px 0;">
-                {plan_html}
-              </td></tr>
-
-              <!-- LEARN WHILE YOU BUILD -->
-              <tr><td style="padding:0 0 4px 0;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                       style="background:#fffbeb;border:1px solid #fde68a;border-radius:14px;">
-                  <tr><td style="padding:18px 22px;">
-                    <p style="margin:0 0 8px 0;font-family:{FONT};font-size:14px;font-weight:700;color:#92400e;">📚 Learn While You Build</p>
-                    <p style="margin:0 0 10px 0;font-family:{FONT};font-size:13px;color:#78350f;">Before you start: ask the agent to teach you the concept first, then build.</p>
-                    <code style="display:block;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:10px 12px;color:#9a3412;font-family:'SFMono-Regular',Consolas,monospace;font-size:12.5px;">@salesforce-brain Explain JSON indexing and keyword search in PowerShell before we build the search feature</code>
-                  </td></tr>
-                </table>
-              </td></tr>
-
-            </table>
+            <!-- LEARN WHILE YOU BUILD -->
+            <tr><td style="padding:22px 36px 8px 36px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-left:3px solid {ACCENT};background:{PAPER};border-radius:0 6px 6px 0;">
+                <tr><td style="padding:16px 20px;">
+                  <p style="margin:0 0 6px 0;font-family:{FONT};font-size:13.5px;font-weight:600;color:{INK};">Learn while you build</p>
+                  <p style="margin:0 0 10px 0;font-family:{FONT};font-size:12.5px;color:{INK_MUTED};">Before you start: ask the agent to teach you the concept first, then build.</p>
+                  <code style="display:block;background:#ffffff;border:1px solid {BORDER};border-radius:4px;padding:9px 12px;font-family:{MONO};font-size:12px;color:{INK};">@salesforce-brain Explain JSON indexing and keyword search in PowerShell before we build the search feature</code>
+                </td></tr>
+              </table>
             </td></tr>
 
             <!-- FOOTER -->
-            <tr><td style="padding:20px 8px;text-align:center;">
-              <p style="margin:0;font-family:{FONT};font-size:12px;color:#94a3b8;">
-                Auto-generated by H-AKOS GitHub Actions &nbsp;&bull;&nbsp;
-                <a href="https://github.com/Vishnu-Zanwar/salesforce-agent-brain" style="color:#6366f1;text-decoration:none;font-weight:600;">View Repository</a>
+            <tr><td style="padding:18px 36px 32px 36px;border-top:1px solid {BORDER};margin-top:14px;">
+              <p style="margin:0;font-family:{FONT};font-size:11.5px;color:{INK_MUTED};">
+                Sent automatically by H-AKOS GitHub Actions, every Saturday at 8:00&nbsp;AM&nbsp;IST &middot;
+                <a href="https://github.com/Vishnu-Zanwar/salesforce-agent-brain" style="color:{ACCENT};text-decoration:none;font-weight:600;">salesforce-agent-brain</a>
               </p>
             </td></tr>
 
@@ -234,7 +242,7 @@ jobs:
           """
 
           msg = MIMEMultipart("alternative")
-          msg["Subject"] = f"🛠️ Saturday Build Plan — {today}"
+          msg["Subject"] = f"Saturday Build Plan — {today}"
           msg["From"]    = os.environ["GMAIL_USER"]
           msg["To"]      = os.environ["RECIPIENT_EMAIL"]
           msg.attach(MIMEText(html, "html"))
