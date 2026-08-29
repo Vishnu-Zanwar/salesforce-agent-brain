@@ -1,4 +1,4 @@
-name: ??? Saturday Implementation Plan (Every Saturday 8AM IST)
+name: 🛠️ Saturday Implementation Plan (Every Saturday 8AM IST)
 
 on:
   schedule:
@@ -96,84 +96,131 @@ jobs:
 
           next_blocker = next((b for b in blockers if b["status"] == "TODO"), None)
           today = datetime.now().strftime("%B %d, %Y")
+          done_count = sum(1 for b in blockers if b["status"] == "DONE")
+          total_count = len(blockers)
+
+          FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif"
 
           done_html = "".join(
-            f'<li style="color:#10b981;">? #{b["id"]} � {b["title"]}</li>'
+            f'<div style="padding:6px 0;font-family:{FONT};font-size:14px;color:#065f46;">'
+            f'<span style="display:inline-block;background:#10b981;color:#ffffff;font-size:10px;font-weight:700;'
+            f'border-radius:4px;padding:2px 6px;margin-right:8px;">DONE</span>'
+            f'#{b["id"]} &mdash; {b["title"]}</div>'
             for b in blockers if b["status"] == "DONE"
-          )
+          ) or f'<div style="font-family:{FONT};font-size:14px;color:#64748b;">Nothing marked done yet.</div>'
 
           if next_blocker:
             steps_html = "".join(
-              f'<li style="padding:8px 0;">Step {i+1}: {s}</li>'
-              for i, s in enumerate(next_blocker.get("steps", []))
-            )
+              f'<li style="padding:6px 0;">{s}</li>'
+              for s in next_blocker.get("steps", [])
+            ) or '<li style="padding:6px 0;color:#94a3b8;">No step-by-step breakdown written yet for this one.</li>'
             plan_html = f"""
-            <div style="background:#1e1e38;color:#e2e8f0;padding:24px;border-radius:12px;margin:16px 0;">
-              <h3 style="color:#a855f7;margin-top:0;">
-                ?? Today's Build: #{next_blocker["id"]} � {next_blocker["title"]}
-              </h3>
-              <p style="color:#94a3b8;">{next_blocker["description"]}</p>
-              <table style="width:100%;margin:16px 0;">
-                <tr>
-                  <td style="color:#64748b;">?? Estimated Time</td>
-                  <td style="color:#f1f5f9;font-weight:bold;">{next_blocker.get("estimated_time","TBD")}</td>
-                </tr>
-                <tr>
-                  <td style="color:#64748b;">?? Difficulty</td>
-                  <td style="color:#f1f5f9;font-weight:bold;">{next_blocker.get("difficulty","TBD")}</td>
-                </tr>
-                <tr>
-                  <td style="color:#64748b;">?? What You Learn</td>
-                  <td style="color:#f1f5f9;font-weight:bold;">{next_blocker.get("learning_outcome","New engineering skill")}</td>
-                </tr>
-              </table>
-              <h4 style="color:#6366f1;">?? Step-by-Step Plan:</h4>
-              <ol style="color:#e2e8f0;line-height:2;">{steps_html}</ol>
-              <div style="background:#0f172a;padding:16px;border-radius:8px;margin-top:16px;">
-                <p style="color:#64748b;margin:0 0 8px;">Open Antigravity IDE and start with:</p>
-                <code style="color:#a855f7;font-size:15px;">@salesforce-brain Saturday session � let us build blocker #{next_blocker["id"]}: {next_blocker["title"]}</code>
-              </div>
-            </div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                   style="background:linear-gradient(135deg,#1e1b4b,#0f172a);border-radius:14px;">
+              <tr><td style="padding:26px 28px;">
+                <p style="margin:0 0 4px 0;font-family:{FONT};font-size:12px;font-weight:700;color:#a5b4fc;text-transform:uppercase;letter-spacing:1px;">Today's Build</p>
+                <h3 style="margin:0 0 12px 0;font-family:{FONT};font-size:19px;color:#ffffff;">#{next_blocker["id"]} &mdash; {next_blocker["title"]}</h3>
+                <p style="margin:0 0 18px 0;font-family:{FONT};font-size:14px;color:#c7d2fe;">{next_blocker["description"]}</p>
+                <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px 0;">
+                  <tr>
+                    <td style="padding:4px 20px 4px 0;font-family:{FONT};font-size:12px;color:#818cf8;">⏱ Est. Time</td>
+                    <td style="padding:4px 0;font-family:{FONT};font-size:13px;font-weight:700;color:#f1f5f9;">{next_blocker.get("estimated_time","TBD")}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:4px 20px 4px 0;font-family:{FONT};font-size:12px;color:#818cf8;">🎚 Difficulty</td>
+                    <td style="padding:4px 0;font-family:{FONT};font-size:13px;font-weight:700;color:#f1f5f9;">{next_blocker.get("difficulty","TBD")}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:4px 20px 4px 0;font-family:{FONT};font-size:12px;color:#818cf8;vertical-align:top;">🎓 You'll Learn</td>
+                    <td style="padding:4px 0;font-family:{FONT};font-size:13px;font-weight:700;color:#f1f5f9;">{next_blocker.get("learning_outcome","New engineering skill")}</td>
+                  </tr>
+                </table>
+                <p style="margin:0 0 8px 0;font-family:{FONT};font-size:12px;font-weight:700;color:#a5b4fc;text-transform:uppercase;letter-spacing:1px;">Step-by-step</p>
+                <ol style="margin:0 0 18px 0;padding-left:20px;font-family:{FONT};font-size:14px;color:#e2e8f0;line-height:1.6;">{steps_html}</ol>
+                <div style="background:#0f172a;border:1px solid #312e81;border-radius:8px;padding:14px 16px;">
+                  <p style="margin:0 0 6px 0;font-family:{FONT};font-size:11px;color:#818cf8;">Open your IDE's AI chat and start with:</p>
+                  <code style="color:#c4b5fd;font-family:'SFMono-Regular',Consolas,monospace;font-size:13px;">@salesforce-brain Saturday session &mdash; let's build blocker #{next_blocker["id"]}: {next_blocker["title"]}</code>
+                </div>
+              </td></tr>
+            </table>
             """
           else:
-            plan_html = "<p style='color:#10b981;font-weight:bold;'>?? All blockers solved! Time to add new features.</p>"
+            plan_html = f"""
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                   style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:14px;">
+              <tr><td style="padding:24px 28px;text-align:center;">
+                <p style="margin:0;font-family:{FONT};font-size:15px;font-weight:700;color:#047857;">🎉 All tracked blockers are DONE. Time to scope new ones.</p>
+              </td></tr>
+            </table>
+            """
 
           html = f"""
-          <html><body style="font-family:Arial,sans-serif;max-width:680px;margin:auto;color:#1e1e2e;">
+          <html>
+          <body style="margin:0;padding:0;background:#eef1f6;font-family:{FONT};">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1f6;padding:32px 16px;">
+          <tr><td align="center">
+          <table role="presentation" width="640" cellpadding="0" cellspacing="0" style="width:640px;max-width:100%;">
 
-          <div style="background:linear-gradient(135deg,#1e1e38,#0f172a);padding:32px;border-radius:12px;">
-            <h1 style="color:#a855f7;margin:0;">??? Saturday Build Session</h1>
-            <p style="color:#94a3b8;margin:8px 0 0;">{today} &nbsp;|&nbsp; H-AKOS Implementation Plan</p>
-          </div>
+            <!-- HEADER -->
+            <tr><td style="background:linear-gradient(135deg,#312e81,#0f172a);border-radius:18px 18px 0 0;padding:36px 32px;">
+              <p style="margin:0;font-family:{FONT};font-size:12px;font-weight:700;letter-spacing:1.5px;color:#a5b4fc;text-transform:uppercase;">H-AKOS &middot; Implementation Plan</p>
+              <h1 style="margin:8px 0 0 0;font-family:{FONT};font-size:26px;color:#ffffff;">🛠️ Saturday Build Session</h1>
+              <p style="margin:10px 0 0 0;font-family:{FONT};font-size:14px;color:#94a3b8;">{today} &nbsp;&bull;&nbsp; {done_count}/{total_count} blockers verified done</p>
+            </td></tr>
 
-          <div style="padding:24px 0;">
+            <!-- BODY -->
+            <tr><td style="background:#eef1f6;padding:20px 0 0 0;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
 
-            <h2 style="color:#10b981;">? Completed So Far</h2>
-            <ul style="background:#ecfdf5;padding:16px 32px;border-radius:8px;border-left:4px solid #10b981;">
-              {done_html}
-            </ul>
+              <!-- COMPLETED -->
+              <tr><td style="padding:0 0 16px 0;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                       style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;">
+                  <tr><td style="height:4px;background:#10b981;line-height:4px;font-size:0;">&nbsp;</td></tr>
+                  <tr><td style="padding:20px 24px;">
+                    <p style="margin:0 0 12px 0;font-family:{FONT};font-size:15px;font-weight:700;color:#0f172a;">✅ Verified Done ({done_count}/{total_count})</p>
+                    {done_html}
+                  </td></tr>
+                </table>
+              </td></tr>
 
-            <h2 style="color:#a855f7;">?? This Saturday's Implementation</h2>
-            {plan_html}
+              <!-- TODAY'S PLAN -->
+              <tr><td style="padding:0 0 16px 0;">
+                {plan_html}
+              </td></tr>
 
-            <h2 style="color:#f59e0b;">?? Learn While You Build</h2>
-            <div style="background:#fffbeb;padding:20px;border-radius:8px;border-left:4px solid #f59e0b;">
-              <p><strong>Before you start:</strong> Ask the agent to teach you the concept first, then build.</p>
-              <code style="color:#92400e;">@salesforce-brain Explain JSON indexing and keyword search in PowerShell before we build the search feature</code>
-            </div>
+              <!-- LEARN WHILE YOU BUILD -->
+              <tr><td style="padding:0 0 4px 0;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                       style="background:#fffbeb;border:1px solid #fde68a;border-radius:14px;">
+                  <tr><td style="padding:18px 22px;">
+                    <p style="margin:0 0 8px 0;font-family:{FONT};font-size:14px;font-weight:700;color:#92400e;">📚 Learn While You Build</p>
+                    <p style="margin:0 0 10px 0;font-family:{FONT};font-size:13px;color:#78350f;">Before you start: ask the agent to teach you the concept first, then build.</p>
+                    <code style="display:block;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:10px 12px;color:#9a3412;font-family:'SFMono-Regular',Consolas,monospace;font-size:12.5px;">@salesforce-brain Explain JSON indexing and keyword search in PowerShell before we build the search feature</code>
+                  </td></tr>
+                </table>
+              </td></tr>
 
-          </div>
+            </table>
+            </td></tr>
 
-          <div style="background:#f1f5f9;padding:16px;border-radius:8px;text-align:center;color:#64748b;font-size:12px;">
-            Auto-generated by H-AKOS GitHub Actions &nbsp;|&nbsp;
-            <a href="https://github.com/Vishnu-Zanwar/salesforce-agent-brain">View Repository</a>
-          </div>
+            <!-- FOOTER -->
+            <tr><td style="padding:20px 8px;text-align:center;">
+              <p style="margin:0;font-family:{FONT};font-size:12px;color:#94a3b8;">
+                Auto-generated by H-AKOS GitHub Actions &nbsp;&bull;&nbsp;
+                <a href="https://github.com/Vishnu-Zanwar/salesforce-agent-brain" style="color:#6366f1;text-decoration:none;font-weight:600;">View Repository</a>
+              </p>
+            </td></tr>
 
-          </body></html>
+          </table>
+          </td></tr>
+          </table>
+          </body>
+          </html>
           """
 
           msg = MIMEMultipart("alternative")
-          msg["Subject"] = f"??? Saturday Build Plan � {today}"
+          msg["Subject"] = f"🛠️ Saturday Build Plan — {today}"
           msg["From"]    = os.environ["GMAIL_USER"]
           msg["To"]      = os.environ["RECIPIENT_EMAIL"]
           msg.attach(MIMEText(html, "html"))
@@ -182,5 +229,5 @@ jobs:
               server.login(os.environ["GMAIL_USER"], os.environ["GMAIL_APP_PASSWORD"])
               server.sendmail(os.environ["GMAIL_USER"], os.environ["RECIPIENT_EMAIL"], msg.as_string())
 
-          print("? Saturday plan sent successfully!")
+          print("Saturday plan sent successfully!")
           PYTHON_SCRIPT
