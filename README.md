@@ -7,6 +7,23 @@
 
 ---
 
+## 0. 🎯 Purpose — What This Is and Why It Exists
+
+**The problem:** every time a hard Salesforce bug gets solved — an obscure `@wire` proxy error, a governor-limit edge case, a flow race condition — that knowledge normally lives only inside one chat session. The session ends, the context resets, and three weeks later the same bug costs another two hours, because neither the engineer's memory nor any AI assistant's context window is a durable place to keep it.
+
+**What this repository is:** a version-controlled, file-based external memory for Salesforce (and adjacent) engineering knowledge. It is not a wiki for browsing — it's built to be read by AI coding agents (Claude Code, Antigravity, or any other IDE assistant) as well as by you, so that a fix written down once is instantly retrievable later instead of being re-derived, guessed at, or hallucinated.
+
+**What we're trying to achieve:**
+1. **Never solve the same bug twice.** Every real error, once understood, gets a permanent, deterministically-addressable note (a `#PINCODE`) instead of evaporating with the chat session.
+2. **Deterministic retrieval over fuzzy guessing.** Lookup is by exact ID or indexed keyword (`brain.ps1 search`), not vector-similarity guesswork that can miss or hallucinate.
+3. **Tool-agnostic by construction.** Everything that matters is plain Markdown/JSON/code on disk — no IDE-specific plugin, config, or vendor lock-in. Any AI agent in any editor should be able to read this repo and use it the same way.
+4. **Verified, not aspirational.** A note or automation only counts as "done" if it's actually checkable on disk — this repo went through an audit that found several early "solved" claims pointed at files that didn't exist, and the ongoing discipline here is to keep status honest rather than let the documentation drift ahead of reality.
+5. **Grow one verified domain at a time.** Salesforce (LWC/Apex/Admin/API) is the first fully-built-out pillar; System Design, AI Engineering, Career/Leadership, and Life & Growth exist as reserved structure for the same pattern to be applied later, not built out yet.
+
+This is a personal knowledge system for one engineer, not a product — the "multi-agent," "autonomous," and "self-evolving" language below describes the direction it's growing in, not a finished system. Treat any specific claim in this document as something to verify against the actual repo state, not as ground truth by itself.
+
+---
+
 ## 1. 🧭 Executive Manifesto: The End of AI Amnesia
 
 Standard AI chatbots suffer from **Context Amnesia**—conversations get wiped, token limits run out, and the AI repeats the exact same mistakes week after week.
