@@ -1,4 +1,4 @@
-﻿{
+{
     "_meta":  {
                   "version":  "1.0.0",
                   "created":  "2026-08-22",
@@ -134,15 +134,25 @@
                                               }
                              },
                      "SDE":  {
-                                 "last_id":  0,
+                                 "last_id":  1,
                                  "assigned":  {
-
+                                                  "SDE001":  {
+                                                                 "title":  "N Plus 1 Query Fan-Out in Microservice Aggregation",
+                                                                 "file":  "02_SYSTEM_DESIGN\\01_ERRORS/SDE001_N_Plus_1_Query_FanOut_in_Microservice_Aggregation.md",
+                                                                 "date":  "2026-08-29",
+                                                                 "status":  "active"
+                                                             }
                                               }
                              },
                      "SDL":  {
-                                 "last_id":  0,
+                                 "last_id":  1,
                                  "assigned":  {
-
+                                                  "SDL001":  {
+                                                                 "title":  "Consistent Hashing Fundamentals for Sharded Systems",
+                                                                 "file":  "02_SYSTEM_DESIGN\\02_LEARNING/SDL001_Consistent_Hashing_Fundamentals_for_Sharded_Systems.md",
+                                                                 "date":  "2026-08-29",
+                                                                 "status":  "active"
+                                                             }
                                               }
                              },
                      "AIE":  {
