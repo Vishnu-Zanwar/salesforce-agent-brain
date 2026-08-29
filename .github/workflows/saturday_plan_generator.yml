@@ -84,10 +84,24 @@ jobs:
             },
             {
               "id": 6, "title": "RAG Layer (Vector Search)",
-              "description": "ChromaDB + sentence-transformers for semantic search across all PINCODE files.",
+              "description": "sentence-transformers semantic search (brain.ps1 search-semantic) as a fallback for fuzzy queries the keyword index misses.",
               "estimated_time": "2 hours",
               "difficulty": "Intermediate",
-              "done_if": file_exists("00_SYSTEM/vector_index") or file_contains("requirements.txt", "sentence-transformers")
+              "done_if": file_exists("00_SYSTEM/vector_search.py") and file_exists("00_SYSTEM/vector_index/embeddings.npy") and file_contains("requirements.txt", "sentence-transformers")
+            },
+            {
+              "id": 7, "title": "Search Relevance Ranking",
+              "description": "Keyword search's hit-count ranking surfaces weak single-token overlaps alongside real matches with no way to tell them apart - needs real relevance scoring (e.g. TF-IDF weighting, or trusting semantic similarity scores over raw hit counts).",
+              "estimated_time": "1 hour",
+              "difficulty": "Intermediate",
+              "done_if": False
+            },
+            {
+              "id": 8, "title": "Auto-Pull Staleness Guard",
+              "description": "A second local clone (different machine, or a different IDE's working copy) has no way to know it's behind - brain.ps1 should check for and warn about unpulled remote commits before answering a search.",
+              "estimated_time": "30 minutes",
+              "difficulty": "Beginner",
+              "done_if": False
             }
           ]
 

@@ -70,6 +70,16 @@ If `search` turns up nothing and you suspect the phrasing was the problem, try
 one alternate phrasing before concluding there's no match. Don't loop
 indefinitely on phrasing — one retry is enough.
 
+If both attempts miss, try `.\brain.ps1 search-semantic "<description>"`
+before concluding nothing exists. It's slower (loads a local embedding
+model) and needs Python + the packages in `requirements.txt`, but it
+catches paraphrased matches the keyword index can't — e.g. "the screen
+just hangs after I click save" finding a note titled "UI freezes on submit"
+with no words in common. Keyword search stays the first move because it's
+faster and exact-match results are more trustworthy than similarity scores;
+semantic search is the fallback for when phrasing, not existence, was the
+problem.
+
 ## Step 3 — On a match
 
 Run `.\brain.ps1 show <PINCODE>` to get the full note in one call. Apply the

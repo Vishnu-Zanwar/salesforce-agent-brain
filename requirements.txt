@@ -1,0 +1,5 @@
+# Only needed for the semantic search layer (00_SYSTEM/vector_search.py).
+# Everything else in this repo (brain.ps1, staleness_check.ps1, the GitHub
+# Actions workflows) has zero Python/pip dependencies.
+sentence-transformers>=6.0.0
+numpy>=2.0.0

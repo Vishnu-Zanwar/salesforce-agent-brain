@@ -11,8 +11,9 @@ Follow `00_SYSTEM/AGENT_PROTOCOL.md` — the full check-first/log-after loop,
 the logging threshold, and the note format are defined there. Short version:
 
 1. Extract a short error signature and run `.\brain.ps1 search "<signature>"` before solving from scratch.
-2. On a match, run `.\brain.ps1 show <PINCODE>` and apply the documented fix — cite the PINCODE.
-3. On no match, solve normally. If it was non-trivial (not a typo/import/syntax slip), write a real note (no stub content left in place), register it with `.\brain.ps1 new-pincode`, and push immediately with `.\brain.ps1 sync`.
+2. Nothing found and you suspect it's a phrasing problem, not a real gap? Try `.\brain.ps1 search-semantic "<description>"` before concluding there's no match — it catches paraphrased matches (needs Python + `requirements.txt` installed).
+3. On a match (either search), run `.\brain.ps1 show <PINCODE>` and apply the documented fix — cite the PINCODE.
+4. On no match, solve normally. If it was non-trivial (not a typo/import/syntax slip), write a real note (no stub content left in place), register it with `.\brain.ps1 new-pincode`, and push immediately with `.\brain.ps1 sync` (this also refreshes the semantic index).
 
 ## Working in this repo specifically
 

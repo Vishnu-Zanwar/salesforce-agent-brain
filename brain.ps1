@@ -251,12 +251,32 @@ switch ($Action.ToLower()) {
             exit
         }
 
+        # Refresh the semantic index too, if the Python layer is available.
+        # Non-fatal on purpose: git sync must not depend on the ML stack
+        # being installed/working.
+        $vectorScript = Join-Path $repoRoot "00_SYSTEM\vector_search.py"
+        if (Get-Command python -ErrorAction SilentlyContinue) {
+            Write-Host "Refreshing semantic vector index..." -ForegroundColor Cyan
+            try { python $vectorScript build } catch { Write-Host "Semantic reindex skipped: $_" -ForegroundColor DarkYellow }
+        }
+
         Write-Host "?? Syncing all branches to GitHub..." -ForegroundColor Cyan
         git add .
         $msg = "chore(sync): auto brain sync [$(Get-Date -Format 'yyyy-MM-dd HH:mm')]"
         git commit -m $msg 2>$null
         git push --all origin
         Write-Host "? All branches synced to GitHub!" -ForegroundColor Green
+    }
+
+    "vector-reindex" {
+        Write-Host "Rebuilding semantic vector index (loads an ML model, may take a bit)..." -ForegroundColor Cyan
+        python (Join-Path $repoRoot "00_SYSTEM\vector_search.py") build
+    }
+
+    "search-semantic" {
+        # Usage: .\brain.ps1 search-semantic "screen freezing after save"
+        if ($Arg1 -eq "") { Write-Host "Usage: .\brain.ps1 search-semantic `"query text`"" -ForegroundColor Yellow; exit }
+        python (Join-Path $repoRoot "00_SYSTEM\vector_search.py") query $Arg1
     }
 
     "branches" {
@@ -272,6 +292,8 @@ switch ($Action.ToLower()) {
         Write-Host "  .\brain.ps1 check-pincode [CODE]                     ? Check if PINCODE exists" -ForegroundColor White
         Write-Host "  .\brain.ps1 search `"query text`"                      ? Search PINCODE index" -ForegroundColor White
         Write-Host "  .\brain.ps1 show [PINCODE]                            ? Dump a note's full content" -ForegroundColor White
+        Write-Host "  .\brain.ps1 search-semantic `"query text`"             ? Fuzzy/meaning-based search (needs Python)" -ForegroundColor White
+        Write-Host "  .\brain.ps1 vector-reindex                            ? Rebuild the semantic index" -ForegroundColor White
         Write-Host "  .\brain.ps1 reindex                                   ? Rebuild pincode_index.json" -ForegroundColor White
         Write-Host "  .\brain.ps1 sync                                      ? Push all to GitHub" -ForegroundColor White
         Write-Host "  .\brain.ps1 branches                                  ? List all branches" -ForegroundColor White
