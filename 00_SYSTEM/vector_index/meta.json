@@ -1,0 +1,61 @@
+{
+  "model": "all-MiniLM-L6-v2",
+  "codes": [
+    "LWE001",
+    "LWE002",
+    "LWL001",
+    "LWL002",
+    "APL001",
+    "APL002",
+    "APC001",
+    "SDE001",
+    "SDL001"
+  ],
+  "meta": [
+    {
+      "code": "LWE001",
+      "title": "Mutating Immutable @wire Property",
+      "file": "01_SALESFORCE/LWC/01_ERRORS/LWE001_wire_mutation.md"
+    },
+    {
+      "code": "LWE002",
+      "title": "lwc-spread Silently Drops Unmatched Public Properties",
+      "file": "01_SALESFORCE\\LWC\\01_ERRORS/LWE002_lwcspread_Silently_Drops_Unmatched_Public_Properties.md"
+    },
+    {
+      "code": "LWL001",
+      "title": "LWC Component Lifecycle Deep Dive",
+      "file": "01_SALESFORCE\\LWC\\02_LEARNING/LWL001_LWC_Component_Lifecycle_Deep_Dive.md"
+    },
+    {
+      "code": "LWL002",
+      "title": "Client-Side Reactive Data Pipeline: Filtering, Slicing & Pagination Pattern in LWC",
+      "file": "01_SALESFORCE\\LWC\\02_LEARNING\\LWL002_Client_Side_Data_Pipeline_Filtering_Pagination.md"
+    },
+    {
+      "code": "APL001",
+      "title": "Apex & LWC Performance Engineering: DSA Bucketing, N+1 Wire Prevention, and Composite DTO Pattern",
+      "file": "01_SALESFORCE\\APEX\\02_LEARNING\\APL001_Apex_DSA_Composite_DTO_Performance_Engineering.md"
+    },
+    {
+      "code": "APL002",
+      "title": "Apex Server-Side Pagination: SOQL OFFSET, Dynamic Filtering & DTO Pagination Patterns",
+      "file": "01_SALESFORCE\\APEX\\02_LEARNING\\APL002_Apex_Server_Side_Pagination_SOQL_Offset.md"
+    },
+    {
+      "code": "APC001",
+      "title": "Enterprise Trigger Handler Template",
+      "file": "01_SALESFORCE/APEX/03_CODE_SAMPLES/APC001_trigger_handler.cls"
+    },
+    {
+      "code": "SDE001",
+      "title": "N Plus 1 Query Fan-Out in Microservice Aggregation",
+      "file": "02_SYSTEM_DESIGN\\01_ERRORS/SDE001_N_Plus_1_Query_FanOut_in_Microservice_Aggregation.md"
+    },
+    {
+      "code": "SDL001",
+      "title": "Consistent Hashing Fundamentals for Sharded Systems",
+      "file": "02_SYSTEM_DESIGN\\02_LEARNING/SDL001_Consistent_Hashing_Fundamentals_for_Sharded_Systems.md"
+    }
+  ]
+}
