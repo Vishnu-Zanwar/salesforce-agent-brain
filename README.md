@@ -20,6 +20,14 @@
 4. **Verified, not aspirational.** A note or automation only counts as "done" if it's actually checkable on disk — this repo went through an audit that found several early "solved" claims pointed at files that didn't exist, and the ongoing discipline here is to keep status honest rather than let the documentation drift ahead of reality.
 5. **Grow one verified domain at a time.** Salesforce (LWC/Apex/Admin/API) is the first fully-built-out pillar; System Design, AI Engineering, Career/Leadership, and Life & Growth exist as reserved structure for the same pattern to be applied later, not built out yet.
 
+**The end goal:** a repository that, years from now, makes every new hard problem in any of these domains faster to solve than the last one — because the fix, the reasoning behind it, and the pattern it belongs to are all sitting in one place an AI agent can actually search and trust. Concretely, that looks like:
+
+- **Every domain reaches the same bar as Salesforce today** — real errors, real learnings, real code samples, not empty placeholder folders — so the 5-pillar structure stops being aspirational and becomes uniformly true.
+- **The weekly/Saturday automation runs on its own** and its status claims are always backed by an actual filesystem check, never a hand-maintained list that can drift from reality.
+- **Retrieval stays fast and exact** as the note count grows into the hundreds — the PINCODE index plus (eventually) local semantic search for the fuzzy-query cases exact keyword search misses.
+- **It keeps working from any IDE or AI agent**, not just the one it was built in — a plain-files-on-disk design is what makes that possible, and every future addition should keep that property rather than trade it away for convenience in one tool.
+- **The system is honest about its own state at every point** — "done" always means verified against disk, so this document stays trustworthy enough to hand to a new AI session (or a future you) and have it act on correctly, without first re-auditing everything.
+
 This is a personal knowledge system for one engineer, not a product — the "multi-agent," "autonomous," and "self-evolving" language below describes the direction it's growing in, not a finished system. Treat any specific claim in this document as something to verify against the actual repo state, not as ground truth by itself.
 
 ---

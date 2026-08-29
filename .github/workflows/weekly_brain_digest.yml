@@ -1,4 +1,4 @@
-name: ?? Weekly Brain Digest (Every Friday 7PM IST)
+name: üß† Weekly Brain Digest (Every Friday 7PM IST)
 
 on:
   schedule:
@@ -59,20 +59,20 @@ jobs:
                   for i in items
               )
 
-          print("?? Fetching web intelligence sources...")
+          print("Fetching web intelligence sources...")
 
           # -- SOURCE 1: Salesforce Developer Blog -----------------------
           sf_dev_blog = safe_fetch_rss("https://developer.salesforce.com/blogs/feed")
-          print(f"? Salesforce Dev Blog: {len(sf_dev_blog)} items")
+          print(f"[ok] Salesforce Dev Blog: {len(sf_dev_blog)} items")
 
           # -- SOURCE 2: Salesforce Release Notes ------------------------
           sf_release = safe_fetch_rss("https://help.salesforce.com/s/rss_feed?language=en_US")
-          print(f"? Salesforce Release Notes: {len(sf_release)} items")
+          print(f"[ok] Salesforce Release Notes: {len(sf_release)} items")
 
           # -- SOURCE 3: Dev.to Salesforce Articles ----------------------
           devto_raw = safe_fetch_json("https://dev.to/api/articles?tag=salesforce&per_page=4&top=7")
           devto = [{"title": a.get("title",""), "link": a.get("url","#")} for a in (devto_raw if isinstance(devto_raw, list) else [])]
-          print(f"? Dev.to Salesforce: {len(devto)} articles")
+          print(f"[ok] Dev.to Salesforce: {len(devto)} articles")
 
           # -- SOURCE 4: Reddit r/salesforce -----------------------------
           reddit_raw = safe_fetch_json(
@@ -86,7 +86,7 @@ jobs:
                   reddit_posts.append({"title": d.get("title",""), "link": f'https://reddit.com{d.get("permalink","")}'})
           except:
               pass
-          print(f"? Reddit r/salesforce: {len(reddit_posts)} posts")
+          print(f"[ok] Reddit r/salesforce: {len(reddit_posts)} posts")
 
           # -- SOURCE 5: npm @salesforce packages ------------------------
           npm_raw = safe_fetch_json("https://registry.npmjs.org/-/v1/search?text=@salesforce&size=4")
@@ -95,12 +95,12 @@ jobs:
               for pkg in npm_raw.get("objects", []):
                   p = pkg.get("package", {})
                   npm_packages.append({
-                      "title": f'{p.get("name","")} v{p.get("version","")} ó {p.get("description","")}',
+                      "title": f'{p.get("name","")} v{p.get("version","")} - {p.get("description","")}',
                       "link": f'https://npmjs.com/package/{p.get("name","")}'
                   })
           except:
               pass
-          print(f"? npm @salesforce: {len(npm_packages)} packages")
+          print(f"[ok] npm @salesforce: {len(npm_packages)} packages")
 
           # -- SOURCE 6: GitHub Trending Salesforce ----------------------
           gh_raw = safe_fetch_json(
@@ -111,12 +111,12 @@ jobs:
           try:
               for r in gh_raw.get("items", []):
                   gh_repos.append({
-                      "title": f'? {r["stargazers_count"]} ó {r["full_name"]}: {r.get("description","")[:60]}',
+                      "title": f'‚≠ê {r["stargazers_count"]} - {r["full_name"]}: {r.get("description","")[:60]}',
                       "link": r["html_url"]
                   })
           except:
               pass
-          print(f"? GitHub Trending: {len(gh_repos)} repos")
+          print(f"[ok] GitHub Trending: {len(gh_repos)} repos")
 
           # -- Repo Stats -------------------------------------------------
           def count_files(folder, ext):
@@ -128,7 +128,7 @@ jobs:
               capture_output=True, text=True
           ).stdout.strip()
           commits_list = [c for c in commits_raw.split("\n") if c]
-          commits_html = "".join(f"<li><code>{c}</code></li>" for c in commits_list) or "<li>No commits this week</li>"
+          commits_html = "<br>".join(commits_list) or '<span style="color:#94a3b8;">No commits this week</span>'
 
           try:
               with open("00_SYSTEM/pincode_registry.json") as f:
@@ -140,102 +140,130 @@ jobs:
           week_end = datetime.now().strftime("%B %d, %Y")
 
           # -- Compose HTML Email -----------------------------------------
+          # Web-safe stack only - Gmail/Outlook/Apple Mail all strip
+          # <link>/@import webfonts, so hierarchy comes from weight and
+          # letter-spacing on system fonts, not a novelty typeface.
+          FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif"
+          MONO = "'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace"
+          INK       = "#1A1A18"
+          INK_MUTED = "#6B6A62"
+          BORDER    = "#E4E1D6"
+          PAPER     = "#F5F3ED"
+          ACCENT    = "#B2551B"
+          ACCENT_SOFT = "#F1E2CE"
+
+          def source_section(eyebrow, title, items, count):
+              rows = links_html(items)
+              return f"""
+              <tr><td style="padding:26px 0 0 0;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                  <tr><td style="border-top:1px solid {BORDER};padding-top:18px;">
+                    <p style="margin:0 0 2px 0;font-family:{FONT};font-size:10.5px;font-weight:700;letter-spacing:0.09em;color:{ACCENT};text-transform:uppercase;">{eyebrow}</p>
+                    <p style="margin:0 0 12px 0;font-family:{FONT};font-size:15px;font-weight:600;color:{INK};">{title} <span style="font-weight:400;color:{INK_MUTED};font-size:12.5px;">({count})</span></p>
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      {rows}
+                    </table>
+                  </td></tr>
+                </table>
+              </td></tr>
+              """
+
+          def links_html(items):
+              if not items:
+                  return f'<tr><td style="padding:2px 0;font-family:{FONT};font-size:13.5px;color:{INK_MUTED};font-style:italic;">No updates found this week.</td></tr>'
+              rows = ""
+              for i in items:
+                  rows += f"""
+                  <tr><td style="padding:7px 0;border-top:1px solid {BORDER};">
+                    <a href="{i['link']}" style="font-family:{FONT};font-size:13.5px;color:{INK};text-decoration:none;line-height:1.5;">{i['title']}</a>
+                  </td></tr>
+                  """
+              return rows
+
           html = f"""
           <html>
-          <body style="font-family:Arial,sans-serif;max-width:700px;margin:auto;color:#1e1e2e;background:#f8fafc;">
+          <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+          <body style="margin:0;padding:0;background:{PAPER};font-family:{FONT};">
+          <div style="display:none;max-height:0;overflow:hidden;opacity:0;">{total_pincodes} PINcodes on record, {len(commits_list)} commits this week &mdash; six sources checked.</div>
 
-          <!-- HEADER -->
-          <div style="background:linear-gradient(135deg,#1e1e38,#0f172a);padding:36px;border-radius:16px 16px 0 0;">
-            <h1 style="color:#6366f1;margin:0;font-size:28px;">?? Weekly Brain Digest</h1>
-            <p style="color:#94a3b8;margin:8px 0 0;">Week ending {week_end} &nbsp;∑&nbsp; H-AKOS Learning OS &nbsp;∑&nbsp; Auto-generated</p>
-          </div>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{PAPER};padding:36px 16px;">
+          <tr><td align="center">
+          <table role="presentation" width="640" cellpadding="0" cellspacing="0" style="width:640px;max-width:100%;background:#ffffff;border:1px solid {BORDER};border-radius:6px;">
 
-          <!-- REPO HEALTH -->
-          <div style="background:#fff;padding:24px;border-left:4px solid #6366f1;">
-            <h2 style="color:#6366f1;margin-top:0;">?? Repository Health</h2>
-            <table style="width:100%;border-collapse:collapse;">
-              <tr style="background:#f1f5f9;">
-                <td style="padding:12px;border:1px solid #e2e8f0;">??? Total PINcodes Registered</td>
-                <td style="padding:12px;border:1px solid #e2e8f0;font-weight:bold;color:#6366f1;font-size:20px;">{total_pincodes}</td>
-              </tr>
-              <tr>
-                <td style="padding:12px;border:1px solid #e2e8f0;">?? Git Commits This Week</td>
-                <td style="padding:12px;border:1px solid #e2e8f0;font-weight:bold;color:#6366f1;font-size:20px;">{len(commits_list)}</td>
-              </tr>
-            </table>
-            <h3 style="color:#475569;">?? This Week's Commits</h3>
-            <ul style="background:#f8fafc;padding:12px 24px;border-radius:8px;border-left:3px solid #6366f1;">
-              {commits_html}
-            </ul>
-          </div>
+            <!-- MASTHEAD -->
+            <tr><td style="padding:32px 36px 20px 36px;">
+              <p style="margin:0;font-family:{FONT};font-size:11px;font-weight:700;letter-spacing:0.12em;color:{ACCENT};text-transform:uppercase;">H-AKOS</p>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:6px;">
+                <tr>
+                  <td>
+                    <h1 style="margin:0;font-family:{FONT};font-size:22px;font-weight:600;color:{INK};letter-spacing:-0.01em;">Weekly Brain Digest</h1>
+                  </td>
+                  <td align="right" style="font-family:{FONT};font-size:12.5px;color:{INK_MUTED};white-space:nowrap;">Week ending<br><span style="color:{INK};font-weight:600;">{week_end}</span></td>
+                </tr>
+              </table>
+            </td></tr>
+            <tr><td style="padding:0 36px;"><div style="border-top:2px solid {INK};"></div></td></tr>
 
-          <!-- SOURCE 1: SF DEV BLOG -->
-          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #0ea5e9;">
-            <h2 style="color:#0ea5e9;margin-top:0;">?? Salesforce Developer Blog</h2>
-            <ul style="padding:0 0 0 20px;line-height:2;">
-              {items_to_html(sf_dev_blog, "#0ea5e9")}
-            </ul>
-          </div>
+            <!-- REPO HEALTH -->
+            <tr><td style="padding:22px 36px 0 36px;">
+              <p style="margin:0 0 12px 0;font-family:{FONT};font-size:10.5px;font-weight:700;letter-spacing:0.09em;color:{INK_MUTED};text-transform:uppercase;">Repository health</p>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid {BORDER};border-radius:6px;">
+                <tr>
+                  <td width="50%" style="padding:16px 20px;border-right:1px solid {BORDER};">
+                    <p style="margin:0;font-family:{FONT};font-size:28px;font-weight:700;color:{INK};font-variant-numeric:tabular-nums;">{total_pincodes}</p>
+                    <p style="margin:2px 0 0 0;font-family:{FONT};font-size:12px;color:{INK_MUTED};">PINcodes on record</p>
+                  </td>
+                  <td width="50%" style="padding:16px 20px;">
+                    <p style="margin:0;font-family:{FONT};font-size:28px;font-weight:700;color:{INK};font-variant-numeric:tabular-nums;">{len(commits_list)}</p>
+                    <p style="margin:2px 0 0 0;font-family:{FONT};font-size:12px;color:{INK_MUTED};">commits this week</p>
+                  </td>
+                </tr>
+              </table>
+              <div style="background:{ACCENT_SOFT};border-radius:6px;padding:12px 16px;margin-top:10px;font-family:{MONO};font-size:12px;color:{INK};line-height:1.8;">
+                {commits_html}
+              </div>
+            </td></tr>
 
-          <!-- SOURCE 2: SF RELEASE NOTES -->
-          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #f59e0b;">
-            <h2 style="color:#f59e0b;margin-top:0;">? Salesforce Release Notes</h2>
-            <ul style="padding:0 0 0 20px;line-height:2;">
-              {items_to_html(sf_release, "#f59e0b")}
-            </ul>
-          </div>
+            <!-- SOURCES -->
+            <tr><td style="padding:0 36px 8px 36px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                {source_section("Source 01", "Salesforce Developer Blog", sf_dev_blog, len(sf_dev_blog))}
+                {source_section("Source 02", "Salesforce Release Notes", sf_release, len(sf_release))}
+                {source_section("Source 03", "Dev.to Community Articles", devto, len(devto))}
+                {source_section("Source 04", "Reddit r/salesforce &mdash; top this week", reddit_posts, len(reddit_posts))}
+                {source_section("Source 05", "npm @salesforce package updates", npm_packages, len(npm_packages))}
+                {source_section("Source 06", "GitHub trending &mdash; Salesforce ecosystem", gh_repos, len(gh_repos))}
+              </table>
+            </td></tr>
 
-          <!-- SOURCE 3: DEV.TO -->
-          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #6366f1;">
-            <h2 style="color:#6366f1;margin-top:0;">?? Dev.to Community Articles</h2>
-            <ul style="padding:0 0 0 20px;line-height:2;">
-              {items_to_html(devto, "#6366f1")}
-            </ul>
-          </div>
+            <!-- CTA -->
+            <tr><td style="padding:8px 36px 32px 36px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-left:3px solid {ACCENT};background:{PAPER};border-radius:0 6px 6px 0;">
+                <tr><td style="padding:16px 20px;">
+                  <p style="margin:0 0 6px 0;font-family:{FONT};font-size:13.5px;font-weight:600;color:{INK};">Tomorrow is Saturday build day</p>
+                  <p style="margin:0 0 10px 0;font-family:{FONT};font-size:12.5px;color:{INK_MUTED};">Open your IDE's AI chat and type:</p>
+                  <code style="display:block;background:#ffffff;border:1px solid {BORDER};border-radius:4px;padding:9px 12px;font-family:{MONO};font-size:12px;color:{INK};">@salesforce-brain Saturday planning session &mdash; what are we building today?</code>
+                </td></tr>
+              </table>
+            </td></tr>
 
-          <!-- SOURCE 4: REDDIT -->
-          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #ef4444;">
-            <h2 style="color:#ef4444;margin-top:0;">?? Reddit r/salesforce ó Top This Week</h2>
-            <ul style="padding:0 0 0 20px;line-height:2;">
-              {items_to_html(reddit_posts, "#ef4444")}
-            </ul>
-          </div>
+            <!-- FOOTER -->
+            <tr><td style="padding:18px 36px;border-top:1px solid {BORDER};">
+              <p style="margin:0;font-family:{FONT};font-size:11.5px;color:{INK_MUTED};">
+                Sent automatically by H-AKOS GitHub Actions, every Friday at 7:00&nbsp;PM&nbsp;IST &middot;
+                <a href="https://github.com/Vishnu-Zanwar/salesforce-agent-brain" style="color:{ACCENT};text-decoration:none;font-weight:600;">salesforce-agent-brain</a>
+              </p>
+            </td></tr>
 
-          <!-- SOURCE 5: NPM -->
-          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #10b981;">
-            <h2 style="color:#10b981;margin-top:0;">?? npm @salesforce Package Updates</h2>
-            <ul style="padding:0 0 0 20px;line-height:2;">
-              {items_to_html(npm_packages, "#10b981")}
-            </ul>
-          </div>
-
-          <!-- SOURCE 6: GITHUB TRENDING -->
-          <div style="background:#fff;padding:24px;margin-top:2px;border-left:4px solid #a855f7;">
-            <h2 style="color:#a855f7;margin-top:0;">?? GitHub Trending ó Salesforce Ecosystem</h2>
-            <ul style="padding:0 0 0 20px;line-height:2;">
-              {items_to_html(gh_repos, "#a855f7")}
-            </ul>
-          </div>
-
-          <!-- CTA -->
-          <div style="background:#1e1e38;padding:24px;border-radius:0 0 16px 16px;margin-top:2px;">
-            <h3 style="color:#a855f7;margin-top:0;">??? Tomorrow is Saturday Build Day!</h3>
-            <p style="color:#94a3b8;">Open Antigravity IDE and type:</p>
-            <div style="background:#0f172a;padding:16px;border-radius:8px;">
-              <code style="color:#a855f7;font-size:15px;">@salesforce-brain Saturday planning session ó what are we building today?</code>
-            </div>
-            <p style="color:#475569;font-size:12px;margin-bottom:0;margin-top:16px;">
-              Auto-generated by H-AKOS GitHub Actions &nbsp;∑&nbsp;
-              <a href="https://github.com/Vishnu-Zanwar/salesforce-agent-brain" style="color:#6366f1;">View Repository</a>
-            </p>
-          </div>
-
+          </table>
+          </td></tr>
+          </table>
           </body>
           </html>
           """
 
           msg = MIMEMultipart("alternative")
-          msg["Subject"] = f"?? Weekly Brain Digest ó {week_end}"
+          msg["Subject"] = f"Weekly Brain Digest ‚Äî {week_end}"
           msg["From"]    = os.environ["GMAIL_USER"]
           msg["To"]      = os.environ["RECIPIENT_EMAIL"]
           msg.attach(MIMEText(html, "html"))
@@ -244,5 +272,5 @@ jobs:
               server.login(os.environ["GMAIL_USER"], os.environ["GMAIL_APP_PASSWORD"])
               server.sendmail(os.environ["GMAIL_USER"], os.environ["RECIPIENT_EMAIL"], msg.as_string())
 
-          print("? Upgraded weekly digest sent with 6 web intelligence sources!")
+          print("Weekly digest sent with 6 web intelligence sources!")
           PYTHON_SCRIPT

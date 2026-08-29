@@ -9,9 +9,10 @@
     [string]$Arg3 = ""
 )
 
-Set-Location "D:\salesforce-agent-brain"
-$registryPath = "D:\salesforce-agent-brain\00_SYSTEM\pincode_registry.json"
-$indexPath    = "D:\salesforce-agent-brain\00_SYSTEM\pincode_index.json"
+$repoRoot = $PSScriptRoot
+Set-Location $repoRoot
+$registryPath = Join-Path $repoRoot "00_SYSTEM\pincode_registry.json"
+$indexPath    = Join-Path $repoRoot "00_SYSTEM\pincode_index.json"
 
 $stopWords = @('a','an','the','and','or','of','in','on','to','for','with','via','vs','is','are')
 
@@ -184,6 +185,36 @@ switch ($Action.ToLower()) {
         }
     }
 
+    "show" {
+        # Usage: .\brain.ps1 show LWE001
+        # Dumps the full content of a registered note in one call, so an
+        # agent doesn't need a separate file-read round trip after search.
+        if ($Arg1 -eq "") { Write-Host "Usage: .\brain.ps1 show [PINCODE]" -ForegroundColor Yellow; exit }
+        $code = $Arg1.ToUpper()
+        $prefix = $code.Substring(0, 3)
+        $reg = Get-Content $registryPath | ConvertFrom-Json
+
+        if (-not $reg.registry.$prefix.assigned.PSObject.Properties[$code]) {
+            Write-Host "NOT_FOUND: #$code is not registered." -ForegroundColor Yellow
+            exit
+        }
+
+        $entry = $reg.registry.$prefix.assigned.$code
+        $filePath = Join-Path $repoRoot $entry.file
+
+        if (-not (Test-Path $filePath)) {
+            Write-Host "REGISTERED_BUT_MISSING: #$code points to $($entry.file), which does not exist on disk." -ForegroundColor Red
+            exit
+        }
+
+        Write-Host "===== #$code : $($entry.title) =====" -ForegroundColor Cyan
+        Write-Host "File: $($entry.file)" -ForegroundColor DarkGray
+        Write-Host ""
+        try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
+        $rawText = [System.IO.File]::ReadAllText($filePath, [System.Text.Encoding]::UTF8)
+        Write-Host $rawText
+    }
+
     "check-pincode" {
         # Usage: .\brain.ps1 check-pincode LWE007
         $code = $Arg1.ToUpper()
@@ -220,12 +251,32 @@ switch ($Action.ToLower()) {
             exit
         }
 
+        # Refresh the semantic index too, if the Python layer is available.
+        # Non-fatal on purpose: git sync must not depend on the ML stack
+        # being installed/working.
+        $vectorScript = Join-Path $repoRoot "00_SYSTEM\vector_search.py"
+        if (Get-Command python -ErrorAction SilentlyContinue) {
+            Write-Host "Refreshing semantic vector index..." -ForegroundColor Cyan
+            try { python $vectorScript build } catch { Write-Host "Semantic reindex skipped: $_" -ForegroundColor DarkYellow }
+        }
+
         Write-Host "?? Syncing all branches to GitHub..." -ForegroundColor Cyan
         git add .
         $msg = "chore(sync): auto brain sync [$(Get-Date -Format 'yyyy-MM-dd HH:mm')]"
         git commit -m $msg 2>$null
         git push --all origin
         Write-Host "? All branches synced to GitHub!" -ForegroundColor Green
+    }
+
+    "vector-reindex" {
+        Write-Host "Rebuilding semantic vector index (loads an ML model, may take a bit)..." -ForegroundColor Cyan
+        python (Join-Path $repoRoot "00_SYSTEM\vector_search.py") build
+    }
+
+    "search-semantic" {
+        # Usage: .\brain.ps1 search-semantic "screen freezing after save"
+        if ($Arg1 -eq "") { Write-Host "Usage: .\brain.ps1 search-semantic `"query text`"" -ForegroundColor Yellow; exit }
+        python (Join-Path $repoRoot "00_SYSTEM\vector_search.py") query $Arg1
     }
 
     "branches" {
@@ -240,6 +291,9 @@ switch ($Action.ToLower()) {
         Write-Host "  .\brain.ps1 new-pincode [PREFIX] [TITLE] [FOLDER]    ? Register new PINCODE" -ForegroundColor White
         Write-Host "  .\brain.ps1 check-pincode [CODE]                     ? Check if PINCODE exists" -ForegroundColor White
         Write-Host "  .\brain.ps1 search `"query text`"                      ? Search PINCODE index" -ForegroundColor White
+        Write-Host "  .\brain.ps1 show [PINCODE]                            ? Dump a note's full content" -ForegroundColor White
+        Write-Host "  .\brain.ps1 search-semantic `"query text`"             ? Fuzzy/meaning-based search (needs Python)" -ForegroundColor White
+        Write-Host "  .\brain.ps1 vector-reindex                            ? Rebuild the semantic index" -ForegroundColor White
         Write-Host "  .\brain.ps1 reindex                                   ? Rebuild pincode_index.json" -ForegroundColor White
         Write-Host "  .\brain.ps1 sync                                      ? Push all to GitHub" -ForegroundColor White
         Write-Host "  .\brain.ps1 branches                                  ? List all branches" -ForegroundColor White

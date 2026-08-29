@@ -1,9 +1,9 @@
 {
     "_meta":  {
                   "version":  "1.0.0",
-                  "generated":  "2026-08-28 20:48:25",
+                  "generated":  "2026-08-29 13:15:14",
                   "description":  "Inverted keyword index over pincode_registry.json titles. Regenerate with \u0027.\\brain.ps1 reindex\u0027 after adding PINCODEs.",
-                  "total_pincodes":  6
+                  "total_pincodes":  9
               },
     "keywords":  {
                      "mutating":  [
@@ -20,10 +20,29 @@
                                       "LWE001"
                                   ],
                      "lwc":  [
+                                 "LWE002",
                                  "LWL001",
                                  "LWL002",
                                  "APL001"
                              ],
+                     "spread":  [
+                                    "LWE002"
+                                ],
+                     "silently":  [
+                                      "LWE002"
+                                  ],
+                     "drops":  [
+                                   "LWE002"
+                               ],
+                     "unmatched":  [
+                                       "LWE002"
+                                   ],
+                     "public":  [
+                                    "LWE002"
+                                ],
+                     "properties":  [
+                                        "LWE002"
+                                    ],
                      "component":  [
                                        "LWL001"
                                    ],
@@ -119,13 +138,52 @@
                                  ],
                      "template":  [
                                       "APC001"
-                                  ]
+                                  ],
+                     "plus":  [
+                                  "SDE001"
+                              ],
+                     "query":  [
+                                   "SDE001"
+                               ],
+                     "fan":  [
+                                 "SDE001"
+                             ],
+                     "out":  [
+                                 "SDE001"
+                             ],
+                     "microservice":  [
+                                          "SDE001"
+                                      ],
+                     "aggregation":  [
+                                         "SDE001"
+                                     ],
+                     "consistent":  [
+                                        "SDL001"
+                                    ],
+                     "hashing":  [
+                                     "SDL001"
+                                 ],
+                     "fundamentals":  [
+                                          "SDL001"
+                                      ],
+                     "sharded":  [
+                                     "SDL001"
+                                 ],
+                     "systems":  [
+                                     "SDL001"
+                                 ]
                  },
     "pincodes":  {
                      "LWE001":  {
                                     "title":  "Mutating Immutable @wire Property",
                                     "file":  "01_SALESFORCE/LWC/01_ERRORS/LWE001_wire_mutation.md",
                                     "date":  "2026-08-21",
+                                    "status":  "active"
+                                },
+                     "LWE002":  {
+                                    "title":  "lwc-spread Silently Drops Unmatched Public Properties",
+                                    "file":  "01_SALESFORCE\\LWC\\01_ERRORS/LWE002_lwcspread_Silently_Drops_Unmatched_Public_Properties.md",
+                                    "date":  "2026-08-29",
                                     "status":  "active"
                                 },
                      "LWL001":  {
@@ -156,6 +214,18 @@
                                     "title":  "Enterprise Trigger Handler Template",
                                     "file":  "01_SALESFORCE/APEX/03_CODE_SAMPLES/APC001_trigger_handler.cls",
                                     "date":  "2026-08-21",
+                                    "status":  "active"
+                                },
+                     "SDE001":  {
+                                    "title":  "N Plus 1 Query Fan-Out in Microservice Aggregation",
+                                    "file":  "02_SYSTEM_DESIGN\\01_ERRORS/SDE001_N_Plus_1_Query_FanOut_in_Microservice_Aggregation.md",
+                                    "date":  "2026-08-29",
+                                    "status":  "active"
+                                },
+                     "SDL001":  {
+                                    "title":  "Consistent Hashing Fundamentals for Sharded Systems",
+                                    "file":  "02_SYSTEM_DESIGN\\02_LEARNING/SDL001_Consistent_Hashing_Fundamentals_for_Sharded_Systems.md",
+                                    "date":  "2026-08-29",
                                     "status":  "active"
                                 }
                  }
