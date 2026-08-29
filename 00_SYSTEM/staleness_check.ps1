@@ -11,7 +11,7 @@ param (
     [int]$ThresholdDays = 180
 )
 
-Set-Location "D:\salesforce-agent-brain"
+Set-Location (Split-Path $PSScriptRoot -Parent)
 
 $today = Get-Date
 $files = Get-ChildItem -Path "01_SALESFORCE" -Recurse -Include "*.md","*.cls" |

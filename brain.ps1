@@ -9,9 +9,10 @@
     [string]$Arg3 = ""
 )
 
-Set-Location "D:\salesforce-agent-brain"
-$registryPath = "D:\salesforce-agent-brain\00_SYSTEM\pincode_registry.json"
-$indexPath    = "D:\salesforce-agent-brain\00_SYSTEM\pincode_index.json"
+$repoRoot = $PSScriptRoot
+Set-Location $repoRoot
+$registryPath = Join-Path $repoRoot "00_SYSTEM\pincode_registry.json"
+$indexPath    = Join-Path $repoRoot "00_SYSTEM\pincode_index.json"
 
 $stopWords = @('a','an','the','and','or','of','in','on','to','for','with','via','vs','is','are')
 
@@ -184,6 +185,36 @@ switch ($Action.ToLower()) {
         }
     }
 
+    "show" {
+        # Usage: .\brain.ps1 show LWE001
+        # Dumps the full content of a registered note in one call, so an
+        # agent doesn't need a separate file-read round trip after search.
+        if ($Arg1 -eq "") { Write-Host "Usage: .\brain.ps1 show [PINCODE]" -ForegroundColor Yellow; exit }
+        $code = $Arg1.ToUpper()
+        $prefix = $code.Substring(0, 3)
+        $reg = Get-Content $registryPath | ConvertFrom-Json
+
+        if (-not $reg.registry.$prefix.assigned.PSObject.Properties[$code]) {
+            Write-Host "NOT_FOUND: #$code is not registered." -ForegroundColor Yellow
+            exit
+        }
+
+        $entry = $reg.registry.$prefix.assigned.$code
+        $filePath = Join-Path $repoRoot $entry.file
+
+        if (-not (Test-Path $filePath)) {
+            Write-Host "REGISTERED_BUT_MISSING: #$code points to $($entry.file), which does not exist on disk." -ForegroundColor Red
+            exit
+        }
+
+        Write-Host "===== #$code : $($entry.title) =====" -ForegroundColor Cyan
+        Write-Host "File: $($entry.file)" -ForegroundColor DarkGray
+        Write-Host ""
+        try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
+        $rawText = [System.IO.File]::ReadAllText($filePath, [System.Text.Encoding]::UTF8)
+        Write-Host $rawText
+    }
+
     "check-pincode" {
         # Usage: .\brain.ps1 check-pincode LWE007
         $code = $Arg1.ToUpper()
@@ -240,6 +271,7 @@ switch ($Action.ToLower()) {
         Write-Host "  .\brain.ps1 new-pincode [PREFIX] [TITLE] [FOLDER]    ? Register new PINCODE" -ForegroundColor White
         Write-Host "  .\brain.ps1 check-pincode [CODE]                     ? Check if PINCODE exists" -ForegroundColor White
         Write-Host "  .\brain.ps1 search `"query text`"                      ? Search PINCODE index" -ForegroundColor White
+        Write-Host "  .\brain.ps1 show [PINCODE]                            ? Dump a note's full content" -ForegroundColor White
         Write-Host "  .\brain.ps1 reindex                                   ? Rebuild pincode_index.json" -ForegroundColor White
         Write-Host "  .\brain.ps1 sync                                      ? Push all to GitHub" -ForegroundColor White
         Write-Host "  .\brain.ps1 branches                                  ? List all branches" -ForegroundColor White
