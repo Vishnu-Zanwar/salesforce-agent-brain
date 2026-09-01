@@ -1,9 +1,9 @@
 {
     "_meta":  {
                   "version":  "1.0.0",
-                  "generated":  "2026-08-29 13:15:14",
+                  "generated":  "2026-09-01 15:13:20",
                   "description":  "Inverted keyword index over pincode_registry.json titles. Regenerate with \u0027.\\brain.ps1 reindex\u0027 after adding PINCODEs.",
-                  "total_pincodes":  9
+                  "total_pincodes":  10
               },
     "keywords":  {
                      "mutating":  [
@@ -84,8 +84,27 @@
                                     ],
                      "pattern":  [
                                      "LWL002",
+                                     "LWL003",
                                      "APL001"
                                  ],
+                     "lds":  [
+                                 "LWL003"
+                             ],
+                     "stale":  [
+                                   "LWL003"
+                               ],
+                     "cache":  [
+                                   "LWL003"
+                               ],
+                     "after":  [
+                                   "LWL003"
+                               ],
+                     "dml":  [
+                                 "LWL003"
+                             ],
+                     "refreshapex":  [
+                                         "LWL003"
+                                     ],
                      "apex":  [
                                   "APL001",
                                   "APL002"
@@ -196,6 +215,12 @@
                                     "title":  "Client-Side Reactive Data Pipeline: Filtering, Slicing \u0026 Pagination Pattern in LWC",
                                     "file":  "01_SALESFORCE\\LWC\\02_LEARNING\\LWL002_Client_Side_Data_Pipeline_Filtering_Pagination.md",
                                     "date":  "2026-08-24",
+                                    "status":  "active"
+                                },
+                     "LWL003":  {
+                                    "title":  "LDS Stale Cache After DML — refreshApex Pattern",
+                                    "file":  "01_SALESFORCE/LWC/02_LEARNING/LWL003_LDS_Stale_Cache_After_DML_refreshApex_Pattern.md",
+                                    "date":  "2026-09-01",
                                     "status":  "active"
                                 },
                      "APL001":  {
