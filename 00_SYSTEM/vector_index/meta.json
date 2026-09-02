@@ -23,7 +23,17 @@
     "APC001",
     "APD001",
     "SDE001",
-    "SDL001"
+    "SDL001",
+    "DSL001",
+    "DSL002",
+    "DSL003",
+    "DSL004",
+    "DSL005",
+    "DSL006",
+    "DSL007",
+    "DSL008",
+    "DSL009",
+    "DSL010"
   ],
   "meta": [
     {
@@ -140,6 +150,56 @@
       "code": "SDL001",
       "title": "Consistent Hashing Fundamentals for Sharded Systems",
       "file": "02_SYSTEM_DESIGN\\02_LEARNING/SDL001_Consistent_Hashing_Fundamentals_for_Sharded_Systems.md"
+    },
+    {
+      "code": "DSL001",
+      "title": "Complexity Analysis & Efficiency Fundamentals",
+      "file": "06_DSA/02_LEARNING/DSL001_Complexity_Analysis_and_Efficiency_Fundamentals.md"
+    },
+    {
+      "code": "DSL002",
+      "title": "Linked List, Stack, Queue & Hashing",
+      "file": "06_DSA/02_LEARNING/DSL002_Linked_List_Stack_Queue_Hashing.md"
+    },
+    {
+      "code": "DSL003",
+      "title": "Graph Traversal - BFS, DFS, DAGs & Topological Sort",
+      "file": "06_DSA/02_LEARNING/DSL003_Graph_Traversal_BFS_DFS_Topological_Sort.md"
+    },
+    {
+      "code": "DSL004",
+      "title": "Shortest Paths & Minimum Spanning Trees",
+      "file": "06_DSA/02_LEARNING/DSL004_Shortest_Paths_and_Minimum_Spanning_Trees.md"
+    },
+    {
+      "code": "DSL005",
+      "title": "Union-Find, Priority Queue, Heap & Binary Search Tree",
+      "file": "06_DSA/02_LEARNING/DSL005_Union_Find_Priority_Queue_Heap_BST.md"
+    },
+    {
+      "code": "DSL006",
+      "title": "AVL Trees & Greedy Algorithms",
+      "file": "06_DSA/02_LEARNING/DSL006_AVL_Trees_and_Greedy_Algorithms.md"
+    },
+    {
+      "code": "DSL007",
+      "title": "Divide & Conquer Algorithms",
+      "file": "06_DSA/02_LEARNING/DSL007_Divide_and_Conquer_Algorithms.md"
+    },
+    {
+      "code": "DSL008",
+      "title": "Dynamic Programming Fundamentals",
+      "file": "06_DSA/02_LEARNING/DSL008_Dynamic_Programming_Fundamentals.md"
+    },
+    {
+      "code": "DSL009",
+      "title": "Linear Programming, Network Flow & Complexity Classes",
+      "file": "06_DSA/02_LEARNING/DSL009_Linear_Programming_Network_Flow_Complexity_Classes.md"
+    },
+    {
+      "code": "DSL010",
+      "title": "String Matching Algorithms",
+      "file": "06_DSA/02_LEARNING/DSL010_String_Matching_Algorithms.md"
     }
   ]
 }

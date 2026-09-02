@@ -1,9 +1,9 @@
 {
     "_meta":  {
                   "version":  "1.0.0",
-                  "generated":  "2026-09-02 13:52:53",
+                  "generated":  "2026-09-02 14:08:26",
                   "description":  "Inverted keyword index over pincode_registry.json titles. Regenerate with \u0027.\\brain.ps1 reindex\u0027 after adding PINCODEs.",
-                  "total_pincodes":  23
+                  "total_pincodes":  33
               },
     "keywords":  {
                      "mutating":  [
@@ -359,7 +359,8 @@
                                     "APL002"
                                 ],
                      "dynamic":  [
-                                     "APL002"
+                                     "APL002",
+                                     "DSL008"
                                  ],
                      "patterns":  [
                                       "APL002"
@@ -410,17 +411,140 @@
                                         "SDL001"
                                     ],
                      "hashing":  [
-                                     "SDL001"
+                                     "SDL001",
+                                     "DSL002"
                                  ],
                      "fundamentals":  [
-                                          "SDL001"
+                                          "SDL001",
+                                          "DSL001",
+                                          "DSL008"
                                       ],
                      "sharded":  [
                                      "SDL001"
                                  ],
                      "systems":  [
                                      "SDL001"
-                                 ]
+                                 ],
+                     "complexity":  [
+                                        "DSL001",
+                                        "DSL009"
+                                    ],
+                     "analysis":  [
+                                      "DSL001"
+                                  ],
+                     "efficiency":  [
+                                        "DSL001"
+                                    ],
+                     "linked":  [
+                                    "DSL002"
+                                ],
+                     "list":  [
+                                  "DSL002"
+                              ],
+                     "stack":  [
+                                   "DSL002"
+                               ],
+                     "queue":  [
+                                   "DSL002",
+                                   "DSL005"
+                               ],
+                     "graph":  [
+                                   "DSL003"
+                               ],
+                     "traversal":  [
+                                       "DSL003"
+                                   ],
+                     "bfs":  [
+                                 "DSL003"
+                             ],
+                     "dfs":  [
+                                 "DSL003"
+                             ],
+                     "dags":  [
+                                  "DSL003"
+                              ],
+                     "topological":  [
+                                         "DSL003"
+                                     ],
+                     "sort":  [
+                                  "DSL003"
+                              ],
+                     "shortest":  [
+                                      "DSL004"
+                                  ],
+                     "paths":  [
+                                   "DSL004"
+                               ],
+                     "minimum":  [
+                                     "DSL004"
+                                 ],
+                     "spanning":  [
+                                      "DSL004"
+                                  ],
+                     "trees":  [
+                                   "DSL004",
+                                   "DSL006"
+                               ],
+                     "union":  [
+                                   "DSL005"
+                               ],
+                     "find":  [
+                                  "DSL005"
+                              ],
+                     "priority":  [
+                                      "DSL005"
+                                  ],
+                     "heap":  [
+                                  "DSL005"
+                              ],
+                     "binary":  [
+                                    "DSL005"
+                                ],
+                     "search":  [
+                                    "DSL005"
+                                ],
+                     "tree":  [
+                                  "DSL005"
+                              ],
+                     "avl":  [
+                                 "DSL006"
+                             ],
+                     "greedy":  [
+                                    "DSL006"
+                                ],
+                     "algorithms":  [
+                                        "DSL006",
+                                        "DSL007",
+                                        "DSL010"
+                                    ],
+                     "divide":  [
+                                    "DSL007"
+                                ],
+                     "conquer":  [
+                                     "DSL007"
+                                 ],
+                     "programming":  [
+                                         "DSL008",
+                                         "DSL009"
+                                     ],
+                     "linear":  [
+                                    "DSL009"
+                                ],
+                     "network":  [
+                                     "DSL009"
+                                 ],
+                     "flow":  [
+                                  "DSL009"
+                              ],
+                     "classes":  [
+                                     "DSL009"
+                                 ],
+                     "string":  [
+                                    "DSL010"
+                                ],
+                     "matching":  [
+                                      "DSL010"
+                                  ]
                  },
     "pincodes":  {
                      "LWE001":  {
@@ -559,6 +683,66 @@
                                     "title":  "Consistent Hashing Fundamentals for Sharded Systems",
                                     "file":  "02_SYSTEM_DESIGN\\02_LEARNING/SDL001_Consistent_Hashing_Fundamentals_for_Sharded_Systems.md",
                                     "date":  "2026-08-29",
+                                    "status":  "active"
+                                },
+                     "DSL001":  {
+                                    "title":  "Complexity Analysis \u0026 Efficiency Fundamentals",
+                                    "file":  "06_DSA/02_LEARNING/DSL001_Complexity_Analysis_and_Efficiency_Fundamentals.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "DSL002":  {
+                                    "title":  "Linked List, Stack, Queue \u0026 Hashing",
+                                    "file":  "06_DSA/02_LEARNING/DSL002_Linked_List_Stack_Queue_Hashing.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "DSL003":  {
+                                    "title":  "Graph Traversal - BFS, DFS, DAGs \u0026 Topological Sort",
+                                    "file":  "06_DSA/02_LEARNING/DSL003_Graph_Traversal_BFS_DFS_Topological_Sort.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "DSL004":  {
+                                    "title":  "Shortest Paths \u0026 Minimum Spanning Trees",
+                                    "file":  "06_DSA/02_LEARNING/DSL004_Shortest_Paths_and_Minimum_Spanning_Trees.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "DSL005":  {
+                                    "title":  "Union-Find, Priority Queue, Heap \u0026 Binary Search Tree",
+                                    "file":  "06_DSA/02_LEARNING/DSL005_Union_Find_Priority_Queue_Heap_BST.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "DSL006":  {
+                                    "title":  "AVL Trees \u0026 Greedy Algorithms",
+                                    "file":  "06_DSA/02_LEARNING/DSL006_AVL_Trees_and_Greedy_Algorithms.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "DSL007":  {
+                                    "title":  "Divide \u0026 Conquer Algorithms",
+                                    "file":  "06_DSA/02_LEARNING/DSL007_Divide_and_Conquer_Algorithms.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "DSL008":  {
+                                    "title":  "Dynamic Programming Fundamentals",
+                                    "file":  "06_DSA/02_LEARNING/DSL008_Dynamic_Programming_Fundamentals.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "DSL009":  {
+                                    "title":  "Linear Programming, Network Flow \u0026 Complexity Classes",
+                                    "file":  "06_DSA/02_LEARNING/DSL009_Linear_Programming_Network_Flow_Complexity_Classes.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "DSL010":  {
+                                    "title":  "String Matching Algorithms",
+                                    "file":  "06_DSA/02_LEARNING/DSL010_String_Matching_Algorithms.md",
+                                    "date":  "2026-09-02",
                                     "status":  "active"
                                 }
                  }

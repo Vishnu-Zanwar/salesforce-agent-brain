@@ -246,6 +246,75 @@
         "LFL": {
             "last_id": 0,
             "assigned": {}
+        },
+        "DSE": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "DSL": {
+            "last_id": 10,
+            "assigned": {
+                "DSL001": {
+                    "title": "Complexity Analysis & Efficiency Fundamentals",
+                    "file": "06_DSA/02_LEARNING/DSL001_Complexity_Analysis_and_Efficiency_Fundamentals.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "DSL002": {
+                    "title": "Linked List, Stack, Queue & Hashing",
+                    "file": "06_DSA/02_LEARNING/DSL002_Linked_List_Stack_Queue_Hashing.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "DSL003": {
+                    "title": "Graph Traversal - BFS, DFS, DAGs & Topological Sort",
+                    "file": "06_DSA/02_LEARNING/DSL003_Graph_Traversal_BFS_DFS_Topological_Sort.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "DSL004": {
+                    "title": "Shortest Paths & Minimum Spanning Trees",
+                    "file": "06_DSA/02_LEARNING/DSL004_Shortest_Paths_and_Minimum_Spanning_Trees.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "DSL005": {
+                    "title": "Union-Find, Priority Queue, Heap & Binary Search Tree",
+                    "file": "06_DSA/02_LEARNING/DSL005_Union_Find_Priority_Queue_Heap_BST.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "DSL006": {
+                    "title": "AVL Trees & Greedy Algorithms",
+                    "file": "06_DSA/02_LEARNING/DSL006_AVL_Trees_and_Greedy_Algorithms.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "DSL007": {
+                    "title": "Divide & Conquer Algorithms",
+                    "file": "06_DSA/02_LEARNING/DSL007_Divide_and_Conquer_Algorithms.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "DSL008": {
+                    "title": "Dynamic Programming Fundamentals",
+                    "file": "06_DSA/02_LEARNING/DSL008_Dynamic_Programming_Fundamentals.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "DSL009": {
+                    "title": "Linear Programming, Network Flow & Complexity Classes",
+                    "file": "06_DSA/02_LEARNING/DSL009_Linear_Programming_Network_Flow_Complexity_Classes.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "DSL010": {
+                    "title": "String Matching Algorithms",
+                    "file": "06_DSA/02_LEARNING/DSL010_String_Matching_Algorithms.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                }
+            }
         }
     }
 }

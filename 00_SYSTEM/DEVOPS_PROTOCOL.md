@@ -78,6 +78,15 @@ mandate.
    git branch -r  # cross-reference: does every remote branch ahead of main have an open PR, or is it an intentional read-only mirror per BRANCH_PROTECTION.md?
    ```
 
+9a. **A `git push` that hangs with no output is usually a stale credential, not a
+   network stall.** Confirmed for real: git's own stored credential (separate
+   from `gh`'s auth) returned a 401, and git silently waited for an
+   interactive prompt that could never come rather than failing loudly. If a
+   push hangs past ~20s, don't assume network — run `git push --verbose` (or
+   `GIT_CURL_VERBOSE=1`) to check for a `401`/`403` in the transcript, and fix
+   with `gh auth setup-git` (points git's credential helper at gh's working
+   auth) rather than waiting it out or force-killing and retrying blind.
+
 9. **Merge conflicts:** attempt automatic resolution only for mechanical,
    unambiguous cases (e.g. the registry/index JSON files, where a rebuild
    via `brain.ps1 reindex` / `vector-reindex` is safer than hand-resolving
