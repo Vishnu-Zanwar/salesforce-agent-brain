@@ -76,13 +76,19 @@ switch ($Action.ToLower()) {
         }
         $reg.registry.$prefix.assigned | Add-Member -NotePropertyName $pincode -NotePropertyValue $newEntry
 
-        # Save updated registry
-        $reg | ConvertTo-Json -Depth 10 | Set-Content $registryPath
+        # Save updated registry. Explicit UTF8 (no BOM) - Set-Content defaults
+        # to the system ANSI codepage on Windows PowerShell 5.1, which silently
+        # corrupts any title with a non-ASCII character (em-dash, curly quote,
+        # accented letter) into invalid UTF-8 for every other reader (Python,
+        # git diff, etc). Found for real: #LWL003's title had an em-dash and
+        # broke strict UTF-8 parsing until this fix.
+        $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+        [System.IO.File]::WriteAllText($registryPath, ($reg | ConvertTo-Json -Depth 10), $utf8NoBom)
 
         # Create the stub file if folder exists
         if ($folder -ne "" -and (Test-Path $folder)) {
             $stub = "# [$pincode] $title`n`n- **PINCODE:** ``#$pincode```n- **Date:** $(Get-Date -Format 'yyyy-MM-dd')`n- **Status:** active`n`n## Description`n`n(Fill in details here)"
-            Set-Content -Path "$folder\$fileName.md" -Value $stub
+            [System.IO.File]::WriteAllText("$folder\$fileName.md", $stub, $utf8NoBom)
             Write-Host "?? Stub file created: $folder\$fileName.md" -ForegroundColor Blue
         }
 
@@ -133,7 +139,8 @@ switch ($Action.ToLower()) {
             pincodes = $pincodes
         }
 
-        $index | ConvertTo-Json -Depth 10 | Set-Content $indexPath
+        $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+        [System.IO.File]::WriteAllText($indexPath, ($index | ConvertTo-Json -Depth 10), $utf8NoBom)
         Write-Host "Indexed $count PINCODE(s), $($keywords.Count) keyword(s) -> $indexPath" -ForegroundColor Green
     }
 

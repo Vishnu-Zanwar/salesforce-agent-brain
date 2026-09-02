@@ -1,9 +1,9 @@
 {
     "_meta":  {
                   "version":  "1.0.0",
-                  "generated":  "2026-09-01 15:13:20",
+                  "generated":  "2026-09-02 13:52:53",
                   "description":  "Inverted keyword index over pincode_registry.json titles. Regenerate with \u0027.\\brain.ps1 reindex\u0027 after adding PINCODEs.",
-                  "total_pincodes":  10
+                  "total_pincodes":  23
               },
     "keywords":  {
                      "mutating":  [
@@ -38,14 +38,124 @@
                                        "LWE002"
                                    ],
                      "public":  [
-                                    "LWE002"
+                                    "LWE002",
+                                    "APE002"
                                 ],
                      "properties":  [
                                         "LWE002"
                                     ],
+                     "hidden":  [
+                                    "LWE003"
+                                ],
+                     "not":  [
+                                 "LWE003",
+                                 "APE001",
+                                 "APE003"
+                             ],
+                     "same":  [
+                                  "LWE003"
+                              ],
+                     "rendered":  [
+                                      "LWE003"
+                                  ],
                      "component":  [
+                                       "LWE004",
                                        "LWL001"
                                    ],
+                     "state":  [
+                                   "LWE004"
+                               ],
+                     "must":  [
+                                  "LWE004"
+                              ],
+                     "derived":  [
+                                     "LWE004"
+                                 ],
+                     "from":  [
+                                  "LWE004",
+                                  "APD001"
+                              ],
+                     "its":  [
+                                 "LWE004"
+                             ],
+                     "inputs":  [
+                                    "LWE004"
+                                ],
+                     "reset":  [
+                                   "LWE004"
+                               ],
+                     "them":  [
+                                  "LWE004",
+                                  "LWE007"
+                              ],
+                     "failed":  [
+                                    "LWE005"
+                                ],
+                     "empty":  [
+                                   "LWE005"
+                               ],
+                     "different":  [
+                                       "LWE005"
+                                   ],
+                     "states":  [
+                                    "LWE005"
+                                ],
+                     "users":  [
+                                   "LWE005"
+                               ],
+                     "can":  [
+                                 "LWE005"
+                             ],
+                     "tell":  [
+                                  "LWE005"
+                              ],
+                     "two":  [
+                                 "LWE006",
+                                 "APE001"
+                             ],
+                     "javascript":  [
+                                        "LWE006"
+                                    ],
+                     "traps":  [
+                                   "LWE006"
+                               ],
+                     "falsy":  [
+                                   "LWE006"
+                               ],
+                     "zero":  [
+                                  "LWE006"
+                              ],
+                     "utc":  [
+                                 "LWE006"
+                             ],
+                     "date":  [
+                                  "LWE006"
+                              ],
+                     "strings":  [
+                                     "LWE006"
+                                 ],
+                     "getters":  [
+                                     "LWE007"
+                                 ],
+                     "run":  [
+                                 "LWE007"
+                             ],
+                     "every":  [
+                                   "LWE007",
+                                   "APE004"
+                               ],
+                     "access":  [
+                                    "LWE007"
+                                ],
+                     "keep":  [
+                                  "LWE007"
+                              ],
+                     "cheap":  [
+                                   "LWE007"
+                               ],
+                     "pure":  [
+                                  "LWE007"
+                              ],
                      "lifecycle":  [
                                        "LWL001"
                                    ],
@@ -105,6 +215,117 @@
                      "refreshapex":  [
                                          "LWL003"
                                      ],
+                     "sharing":  [
+                                     "APE001"
+                                 ],
+                     "execution":  [
+                                       "APE001"
+                                   ],
+                     "mode":  [
+                                  "APE001"
+                              ],
+                     "switches":  [
+                                      "APE001"
+                                  ],
+                     "one":  [
+                                 "APE001",
+                                 "APE004",
+                                 "APE006"
+                             ],
+                     "auraenabled":  [
+                                         "APE002"
+                                     ],
+                     "method":  [
+                                    "APE002"
+                                ],
+                     "api":  [
+                                 "APE002"
+                             ],
+                     "read":  [
+                                  "APE003"
+                              ],
+                     "then":  [
+                                  "APE003"
+                              ],
+                     "write":  [
+                                   "APE003"
+                               ],
+                     "atomic":  [
+                                    "APE003"
+                                ],
+                     "business":  [
+                                      "APE004"
+                                  ],
+                     "rule":  [
+                                  "APE004"
+                              ],
+                     "enforced":  [
+                                      "APE004"
+                                  ],
+                     "identically":  [
+                                         "APE004"
+                                     ],
+                     "layer":  [
+                                   "APE004"
+                               ],
+                     "soql":  [
+                                  "APE006",
+                                  "APL002"
+                              ],
+                     "result":  [
+                                    "APE006"
+                                ],
+                     "has":  [
+                                 "APE006"
+                             ],
+                     "order":  [
+                                   "APE006"
+                               ],
+                     "unless":  [
+                                    "APE006"
+                                ],
+                     "you":  [
+                                 "APE006"
+                             ],
+                     "give":  [
+                                  "APE006"
+                              ],
+                     "catch":  [
+                                   "APE007"
+                               ],
+                     "blocks":  [
+                                    "APE007"
+                                ],
+                     "code":  [
+                                  "APE007"
+                              ],
+                     "too":  [
+                                 "APE007"
+                             ],
+                     "craft":  [
+                                   "APE008"
+                               ],
+                     "debt":  [
+                                  "APE008"
+                              ],
+                     "names":  [
+                                   "APE008"
+                               ],
+                     "copy":  [
+                                  "APE008"
+                              ],
+                     "tests":  [
+                                   "APE008"
+                               ],
+                     "that":  [
+                                  "APE008"
+                              ],
+                     "dont":  [
+                                  "APE008"
+                              ],
+                     "exist":  [
+                                   "APE008"
+                               ],
                      "apex":  [
                                   "APL001",
                                   "APL002"
@@ -134,9 +355,6 @@
                      "server":  [
                                     "APL002"
                                 ],
-                     "soql":  [
-                                  "APL002"
-                              ],
                      "offset":  [
                                     "APL002"
                                 ],
@@ -158,6 +376,18 @@
                      "template":  [
                                       "APC001"
                                   ],
+                     "principles":  [
+                                        "APD001"
+                                    ],
+                     "registration":  [
+                                          "APD001"
+                                      ],
+                     "module":  [
+                                    "APD001"
+                                ],
+                     "postmortem":  [
+                                        "APD001"
+                                    ],
                      "plus":  [
                                   "SDE001"
                               ],
@@ -205,6 +435,36 @@
                                     "date":  "2026-08-29",
                                     "status":  "active"
                                 },
+                     "LWE003":  {
+                                    "title":  "Hidden Is Not the Same as Not Rendered",
+                                    "file":  "01_SALESFORCE/LWC/01_ERRORS/LWE003_Hidden_Is_Not_Unrendered.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "LWE004":  {
+                                    "title":  "Component State Must Be Derived From Its Inputs, or Reset With Them",
+                                    "file":  "01_SALESFORCE/LWC/01_ERRORS/LWE004_State_Must_Follow_Its_Inputs.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "LWE005":  {
+                                    "title":  "\"Failed\" and \"Empty\" Are Different States, and Users Can Tell",
+                                    "file":  "01_SALESFORCE/LWC/01_ERRORS/LWE005_Failed_Is_Not_Empty.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "LWE006":  {
+                                    "title":  "Two JavaScript Traps - Falsy Zero and UTC Date Strings",
+                                    "file":  "01_SALESFORCE/LWC/01_ERRORS/LWE006_Falsy_Zero_UTC_Dates.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "LWE007":  {
+                                    "title":  "Getters Run on Every Access - Keep Them Cheap and Pure",
+                                    "file":  "01_SALESFORCE/LWC/01_ERRORS/LWE007_Getters_Are_Not_Cached.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
                      "LWL001":  {
                                     "title":  "LWC Component Lifecycle Deep Dive",
                                     "file":  "01_SALESFORCE\\LWC\\02_LEARNING/LWL001_LWC_Component_Lifecycle_Deep_Dive.md",
@@ -218,9 +478,51 @@
                                     "status":  "active"
                                 },
                      "LWL003":  {
-                                    "title":  "LDS Stale Cache After DML � refreshApex Pattern",
+                                    "title":  "LDS Stale Cache After DML â€” refreshApex Pattern",
                                     "file":  "01_SALESFORCE/LWC/02_LEARNING/LWL003_LDS_Stale_Cache_After_DML_refreshApex_Pattern.md",
                                     "date":  "2026-09-01",
+                                    "status":  "active"
+                                },
+                     "APE001":  {
+                                    "title":  "Sharing and Execution Mode Are Two Switches, Not One",
+                                    "file":  "01_SALESFORCE/APEX/01_ERRORS/APE001_Sharing_and_Execution_Mode_Are_Two_Switches.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "APE002":  {
+                                    "title":  "An @AuraEnabled Method Is a Public API",
+                                    "file":  "01_SALESFORCE/APEX/01_ERRORS/APE002_AuraEnabled_Is_a_Public_API.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "APE003":  {
+                                    "title":  "Read-Then-Write Is Not Atomic",
+                                    "file":  "01_SALESFORCE/APEX/01_ERRORS/APE003_Read_Then_Write_Is_Not_Atomic.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "APE004":  {
+                                    "title":  "One Business Rule, Enforced Identically at Every Layer",
+                                    "file":  "01_SALESFORCE/APEX/01_ERRORS/APE004_One_Rule_Every_Layer.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "APE006":  {
+                                    "title":  "A SOQL Result Has No Order Unless You Give It One",
+                                    "file":  "01_SALESFORCE/APEX/01_ERRORS/APE006_SOQL_Has_No_Default_Order.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "APE007":  {
+                                    "title":  "Catch Blocks Are Code Too",
+                                    "file":  "01_SALESFORCE/APEX/01_ERRORS/APE007_Catch_Blocks_Are_Code_Too.md",
+                                    "date":  "2026-09-02",
+                                    "status":  "active"
+                                },
+                     "APE008":  {
+                                    "title":  "Craft Debt - Names, Copy, and the Tests That Dont Exist",
+                                    "file":  "01_SALESFORCE/APEX/01_ERRORS/APE008_Craft_Names_Copy_Missing_Tests.md",
+                                    "date":  "2026-09-02",
                                     "status":  "active"
                                 },
                      "APL001":  {
@@ -239,6 +541,12 @@
                                     "title":  "Enterprise Trigger Handler Template",
                                     "file":  "01_SALESFORCE/APEX/03_CODE_SAMPLES/APC001_trigger_handler.cls",
                                     "date":  "2026-08-21",
+                                    "status":  "active"
+                                },
+                     "APD001":  {
+                                    "title":  "7 Principles From the Registration Module Postmortem",
+                                    "file":  "01_SALESFORCE/APEX/05_ONENOTE_DIGEST/APD001_Registration_Module_Postmortem_7_Principles.md",
+                                    "date":  "2026-09-02",
                                     "status":  "active"
                                 },
                      "SDE001":  {

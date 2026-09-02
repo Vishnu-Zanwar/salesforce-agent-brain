@@ -3,11 +3,25 @@
   "codes": [
     "LWE001",
     "LWE002",
+    "LWE003",
+    "LWE004",
+    "LWE005",
+    "LWE006",
+    "LWE007",
     "LWL001",
     "LWL002",
+    "LWL003",
+    "APE001",
+    "APE002",
+    "APE003",
+    "APE004",
+    "APE006",
+    "APE007",
+    "APE008",
     "APL001",
     "APL002",
     "APC001",
+    "APD001",
     "SDE001",
     "SDL001"
   ],
@@ -23,6 +37,31 @@
       "file": "01_SALESFORCE\\LWC\\01_ERRORS/LWE002_lwcspread_Silently_Drops_Unmatched_Public_Properties.md"
     },
     {
+      "code": "LWE003",
+      "title": "Hidden Is Not the Same as Not Rendered",
+      "file": "01_SALESFORCE/LWC/01_ERRORS/LWE003_Hidden_Is_Not_Unrendered.md"
+    },
+    {
+      "code": "LWE004",
+      "title": "Component State Must Be Derived From Its Inputs, or Reset With Them",
+      "file": "01_SALESFORCE/LWC/01_ERRORS/LWE004_State_Must_Follow_Its_Inputs.md"
+    },
+    {
+      "code": "LWE005",
+      "title": "\"Failed\" and \"Empty\" Are Different States, and Users Can Tell",
+      "file": "01_SALESFORCE/LWC/01_ERRORS/LWE005_Failed_Is_Not_Empty.md"
+    },
+    {
+      "code": "LWE006",
+      "title": "Two JavaScript Traps - Falsy Zero and UTC Date Strings",
+      "file": "01_SALESFORCE/LWC/01_ERRORS/LWE006_Falsy_Zero_UTC_Dates.md"
+    },
+    {
+      "code": "LWE007",
+      "title": "Getters Run on Every Access - Keep Them Cheap and Pure",
+      "file": "01_SALESFORCE/LWC/01_ERRORS/LWE007_Getters_Are_Not_Cached.md"
+    },
+    {
       "code": "LWL001",
       "title": "LWC Component Lifecycle Deep Dive",
       "file": "01_SALESFORCE\\LWC\\02_LEARNING/LWL001_LWC_Component_Lifecycle_Deep_Dive.md"
@@ -31,6 +70,46 @@
       "code": "LWL002",
       "title": "Client-Side Reactive Data Pipeline: Filtering, Slicing & Pagination Pattern in LWC",
       "file": "01_SALESFORCE\\LWC\\02_LEARNING\\LWL002_Client_Side_Data_Pipeline_Filtering_Pagination.md"
+    },
+    {
+      "code": "LWL003",
+      "title": "LDS Stale Cache After DML \u2014 refreshApex Pattern",
+      "file": "01_SALESFORCE/LWC/02_LEARNING/LWL003_LDS_Stale_Cache_After_DML_refreshApex_Pattern.md"
+    },
+    {
+      "code": "APE001",
+      "title": "Sharing and Execution Mode Are Two Switches, Not One",
+      "file": "01_SALESFORCE/APEX/01_ERRORS/APE001_Sharing_and_Execution_Mode_Are_Two_Switches.md"
+    },
+    {
+      "code": "APE002",
+      "title": "An @AuraEnabled Method Is a Public API",
+      "file": "01_SALESFORCE/APEX/01_ERRORS/APE002_AuraEnabled_Is_a_Public_API.md"
+    },
+    {
+      "code": "APE003",
+      "title": "Read-Then-Write Is Not Atomic",
+      "file": "01_SALESFORCE/APEX/01_ERRORS/APE003_Read_Then_Write_Is_Not_Atomic.md"
+    },
+    {
+      "code": "APE004",
+      "title": "One Business Rule, Enforced Identically at Every Layer",
+      "file": "01_SALESFORCE/APEX/01_ERRORS/APE004_One_Rule_Every_Layer.md"
+    },
+    {
+      "code": "APE006",
+      "title": "A SOQL Result Has No Order Unless You Give It One",
+      "file": "01_SALESFORCE/APEX/01_ERRORS/APE006_SOQL_Has_No_Default_Order.md"
+    },
+    {
+      "code": "APE007",
+      "title": "Catch Blocks Are Code Too",
+      "file": "01_SALESFORCE/APEX/01_ERRORS/APE007_Catch_Blocks_Are_Code_Too.md"
+    },
+    {
+      "code": "APE008",
+      "title": "Craft Debt - Names, Copy, and the Tests That Dont Exist",
+      "file": "01_SALESFORCE/APEX/01_ERRORS/APE008_Craft_Names_Copy_Missing_Tests.md"
     },
     {
       "code": "APL001",
@@ -46,6 +125,11 @@
       "code": "APC001",
       "title": "Enterprise Trigger Handler Template",
       "file": "01_SALESFORCE/APEX/03_CODE_SAMPLES/APC001_trigger_handler.cls"
+    },
+    {
+      "code": "APD001",
+      "title": "7 Principles From the Registration Module Postmortem",
+      "file": "01_SALESFORCE/APEX/05_ONENOTE_DIGEST/APD001_Registration_Module_Postmortem_7_Principles.md"
     },
     {
       "code": "SDE001",

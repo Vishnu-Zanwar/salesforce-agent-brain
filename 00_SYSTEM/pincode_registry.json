@@ -1,207 +1,251 @@
 {
-    "_meta":  {
-                  "version":  "1.0.0",
-                  "created":  "2026-08-22",
-                  "description":  "Single source of truth for all PINCODE assignments. Always check before creating a new PINCODE."
-              },
-    "registry":  {
-                     "LWE":  {
-                                 "last_id":  2,
-                                 "assigned":  {
-                                                  "LWE001":  {
-                                                                 "title":  "Mutating Immutable @wire Property",
-                                                                 "file":  "01_SALESFORCE/LWC/01_ERRORS/LWE001_wire_mutation.md",
-                                                                 "date":  "2026-08-21",
-                                                                 "status":  "active"
-                                                             },
-                                                  "LWE002":  {
-                                                                 "title":  "lwc-spread Silently Drops Unmatched Public Properties",
-                                                                 "file":  "01_SALESFORCE\\LWC\\01_ERRORS/LWE002_lwcspread_Silently_Drops_Unmatched_Public_Properties.md",
-                                                                 "date":  "2026-08-29",
-                                                                 "status":  "active"
-                                                             }
-                                              }
-                             },
-                     "LWL":  {
-                                 "last_id":  3,
-                                 "assigned":  {
-                                                  "LWL001":  {
-                                                                 "title":  "LWC Component Lifecycle Deep Dive",
-                                                                 "file":  "01_SALESFORCE\\LWC\\02_LEARNING/LWL001_LWC_Component_Lifecycle_Deep_Dive.md",
-                                                                 "date":  "2026-08-22",
-                                                                 "status":  "active"
-                                                             },
-                                                  "LWL002":  {
-                                                                 "title":  "Client-Side Reactive Data Pipeline: Filtering, Slicing \u0026 Pagination Pattern in LWC",
-                                                                 "file":  "01_SALESFORCE\\LWC\\02_LEARNING\\LWL002_Client_Side_Data_Pipeline_Filtering_Pagination.md",
-                                                                 "date":  "2026-08-24",
-                                                                 "status":  "active"
-                                                             },
-                                                  "LWL003":  {
-                                                                 "title":  "LDS Stale Cache After DML — refreshApex Pattern",
-                                                                 "file":  "01_SALESFORCE/LWC/02_LEARNING/LWL003_LDS_Stale_Cache_After_DML_refreshApex_Pattern.md",
-                                                                 "date":  "2026-09-01",
-                                                                 "status":  "active"
-                                                             }
-                                              }
-                             },
-                     "LWC":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "LWN":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "LWD":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "APE":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "APL":  {
-                                 "last_id":  2,
-                                 "assigned":  {
-                                                  "APL001":  {
-                                                                 "title":  "Apex \u0026 LWC Performance Engineering: DSA Bucketing, N+1 Wire Prevention, and Composite DTO Pattern",
-                                                                 "file":  "01_SALESFORCE\\APEX\\02_LEARNING\\APL001_Apex_DSA_Composite_DTO_Performance_Engineering.md",
-                                                                 "date":  "2026-08-24",
-                                                                 "status":  "active"
-                                                             },
-                                                  "APL002":  {
-                                                                 "title":  "Apex Server-Side Pagination: SOQL OFFSET, Dynamic Filtering \u0026 DTO Pagination Patterns",
-                                                                 "file":  "01_SALESFORCE\\APEX\\02_LEARNING\\APL002_Apex_Server_Side_Pagination_SOQL_Offset.md",
-                                                                 "date":  "2026-08-24",
-                                                                 "status":  "active"
-                                                             }
-                                              }
-                             },
-                     "APC":  {
-                                 "last_id":  1,
-                                 "assigned":  {
-                                                  "APC001":  {
-                                                                 "title":  "Enterprise Trigger Handler Template",
-                                                                 "file":  "01_SALESFORCE/APEX/03_CODE_SAMPLES/APC001_trigger_handler.cls",
-                                                                 "date":  "2026-08-21",
-                                                                 "status":  "active"
-                                                             }
-                                              }
-                             },
-                     "APN":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "APD":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "ADE":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "ADL":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "ADC":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "INE":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "INL":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "INC":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "SDE":  {
-                                 "last_id":  1,
-                                 "assigned":  {
-                                                  "SDE001":  {
-                                                                 "title":  "N Plus 1 Query Fan-Out in Microservice Aggregation",
-                                                                 "file":  "02_SYSTEM_DESIGN\\01_ERRORS/SDE001_N_Plus_1_Query_FanOut_in_Microservice_Aggregation.md",
-                                                                 "date":  "2026-08-29",
-                                                                 "status":  "active"
-                                                             }
-                                              }
-                             },
-                     "SDL":  {
-                                 "last_id":  1,
-                                 "assigned":  {
-                                                  "SDL001":  {
-                                                                 "title":  "Consistent Hashing Fundamentals for Sharded Systems",
-                                                                 "file":  "02_SYSTEM_DESIGN\\02_LEARNING/SDL001_Consistent_Hashing_Fundamentals_for_Sharded_Systems.md",
-                                                                 "date":  "2026-08-29",
-                                                                 "status":  "active"
-                                                             }
-                                              }
-                             },
-                     "AIE":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "AIL":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "CLE":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "CLL":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "LFE":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             },
-                     "LFL":  {
-                                 "last_id":  0,
-                                 "assigned":  {
-
-                                              }
-                             }
-                 }
+    "_meta": {
+        "version": "1.0.0",
+        "created": "2026-08-22",
+        "description": "Single source of truth for all PINCODE assignments. Always check before creating a new PINCODE."
+    },
+    "registry": {
+        "LWE": {
+            "last_id": 7,
+            "assigned": {
+                "LWE001": {
+                    "title": "Mutating Immutable @wire Property",
+                    "file": "01_SALESFORCE/LWC/01_ERRORS/LWE001_wire_mutation.md",
+                    "date": "2026-08-21",
+                    "status": "active"
+                },
+                "LWE002": {
+                    "title": "lwc-spread Silently Drops Unmatched Public Properties",
+                    "file": "01_SALESFORCE\\LWC\\01_ERRORS/LWE002_lwcspread_Silently_Drops_Unmatched_Public_Properties.md",
+                    "date": "2026-08-29",
+                    "status": "active"
+                },
+                "LWE003": {
+                    "title": "Hidden Is Not the Same as Not Rendered",
+                    "file": "01_SALESFORCE/LWC/01_ERRORS/LWE003_Hidden_Is_Not_Unrendered.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "LWE004": {
+                    "title": "Component State Must Be Derived From Its Inputs, or Reset With Them",
+                    "file": "01_SALESFORCE/LWC/01_ERRORS/LWE004_State_Must_Follow_Its_Inputs.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "LWE005": {
+                    "title": "\"Failed\" and \"Empty\" Are Different States, and Users Can Tell",
+                    "file": "01_SALESFORCE/LWC/01_ERRORS/LWE005_Failed_Is_Not_Empty.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "LWE006": {
+                    "title": "Two JavaScript Traps - Falsy Zero and UTC Date Strings",
+                    "file": "01_SALESFORCE/LWC/01_ERRORS/LWE006_Falsy_Zero_UTC_Dates.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "LWE007": {
+                    "title": "Getters Run on Every Access - Keep Them Cheap and Pure",
+                    "file": "01_SALESFORCE/LWC/01_ERRORS/LWE007_Getters_Are_Not_Cached.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                }
+            }
+        },
+        "LWL": {
+            "last_id": 3,
+            "assigned": {
+                "LWL001": {
+                    "title": "LWC Component Lifecycle Deep Dive",
+                    "file": "01_SALESFORCE\\LWC\\02_LEARNING/LWL001_LWC_Component_Lifecycle_Deep_Dive.md",
+                    "date": "2026-08-22",
+                    "status": "active"
+                },
+                "LWL002": {
+                    "title": "Client-Side Reactive Data Pipeline: Filtering, Slicing & Pagination Pattern in LWC",
+                    "file": "01_SALESFORCE\\LWC\\02_LEARNING\\LWL002_Client_Side_Data_Pipeline_Filtering_Pagination.md",
+                    "date": "2026-08-24",
+                    "status": "active"
+                },
+                "LWL003": {
+                    "title": "LDS Stale Cache After DML â€” refreshApex Pattern",
+                    "file": "01_SALESFORCE/LWC/02_LEARNING/LWL003_LDS_Stale_Cache_After_DML_refreshApex_Pattern.md",
+                    "date": "2026-09-01",
+                    "status": "active"
+                }
+            }
+        },
+        "LWC": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "LWN": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "LWD": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "APE": {
+            "last_id": 8,
+            "assigned": {
+                "APE001": {
+                    "title": "Sharing and Execution Mode Are Two Switches, Not One",
+                    "file": "01_SALESFORCE/APEX/01_ERRORS/APE001_Sharing_and_Execution_Mode_Are_Two_Switches.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "APE002": {
+                    "title": "An @AuraEnabled Method Is a Public API",
+                    "file": "01_SALESFORCE/APEX/01_ERRORS/APE002_AuraEnabled_Is_a_Public_API.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "APE003": {
+                    "title": "Read-Then-Write Is Not Atomic",
+                    "file": "01_SALESFORCE/APEX/01_ERRORS/APE003_Read_Then_Write_Is_Not_Atomic.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "APE004": {
+                    "title": "One Business Rule, Enforced Identically at Every Layer",
+                    "file": "01_SALESFORCE/APEX/01_ERRORS/APE004_One_Rule_Every_Layer.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "APE006": {
+                    "title": "A SOQL Result Has No Order Unless You Give It One",
+                    "file": "01_SALESFORCE/APEX/01_ERRORS/APE006_SOQL_Has_No_Default_Order.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "APE007": {
+                    "title": "Catch Blocks Are Code Too",
+                    "file": "01_SALESFORCE/APEX/01_ERRORS/APE007_Catch_Blocks_Are_Code_Too.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                },
+                "APE008": {
+                    "title": "Craft Debt - Names, Copy, and the Tests That Dont Exist",
+                    "file": "01_SALESFORCE/APEX/01_ERRORS/APE008_Craft_Names_Copy_Missing_Tests.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                }
+            }
+        },
+        "APL": {
+            "last_id": 2,
+            "assigned": {
+                "APL001": {
+                    "title": "Apex & LWC Performance Engineering: DSA Bucketing, N+1 Wire Prevention, and Composite DTO Pattern",
+                    "file": "01_SALESFORCE\\APEX\\02_LEARNING\\APL001_Apex_DSA_Composite_DTO_Performance_Engineering.md",
+                    "date": "2026-08-24",
+                    "status": "active"
+                },
+                "APL002": {
+                    "title": "Apex Server-Side Pagination: SOQL OFFSET, Dynamic Filtering & DTO Pagination Patterns",
+                    "file": "01_SALESFORCE\\APEX\\02_LEARNING\\APL002_Apex_Server_Side_Pagination_SOQL_Offset.md",
+                    "date": "2026-08-24",
+                    "status": "active"
+                }
+            }
+        },
+        "APC": {
+            "last_id": 1,
+            "assigned": {
+                "APC001": {
+                    "title": "Enterprise Trigger Handler Template",
+                    "file": "01_SALESFORCE/APEX/03_CODE_SAMPLES/APC001_trigger_handler.cls",
+                    "date": "2026-08-21",
+                    "status": "active"
+                }
+            }
+        },
+        "APN": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "APD": {
+            "last_id": 1,
+            "assigned": {
+                "APD001": {
+                    "title": "7 Principles From the Registration Module Postmortem",
+                    "file": "01_SALESFORCE/APEX/05_ONENOTE_DIGEST/APD001_Registration_Module_Postmortem_7_Principles.md",
+                    "date": "2026-09-02",
+                    "status": "active"
+                }
+            }
+        },
+        "ADE": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "ADL": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "ADC": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "INE": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "INL": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "INC": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "SDE": {
+            "last_id": 1,
+            "assigned": {
+                "SDE001": {
+                    "title": "N Plus 1 Query Fan-Out in Microservice Aggregation",
+                    "file": "02_SYSTEM_DESIGN\\01_ERRORS/SDE001_N_Plus_1_Query_FanOut_in_Microservice_Aggregation.md",
+                    "date": "2026-08-29",
+                    "status": "active"
+                }
+            }
+        },
+        "SDL": {
+            "last_id": 1,
+            "assigned": {
+                "SDL001": {
+                    "title": "Consistent Hashing Fundamentals for Sharded Systems",
+                    "file": "02_SYSTEM_DESIGN\\02_LEARNING/SDL001_Consistent_Hashing_Fundamentals_for_Sharded_Systems.md",
+                    "date": "2026-08-29",
+                    "status": "active"
+                }
+            }
+        },
+        "AIE": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "AIL": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "CLE": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "CLL": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "LFE": {
+            "last_id": 0,
+            "assigned": {}
+        },
+        "LFL": {
+            "last_id": 0,
+            "assigned": {}
+        }
+    }
 }
